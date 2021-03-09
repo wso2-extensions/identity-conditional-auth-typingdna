@@ -8,7 +8,6 @@
   
 3.After that you need to add the connector & extensions to the folder
 
-  Adding TypingDNA plugins in authentication endpoint.
     
     1.Download typing-dna.zip & extract it 
     
@@ -18,13 +17,11 @@
     3.Add the typing-dna.js file to IS_Home/repository/deployment/server/webapps/authenticationendpoint/js
     
     4.Add the following line in IS_Home/repository/deployment/server/webapps/authenticationendpoint/basicauth.jsp
-      ```<jsp:directive.include file="plugins/basicauth-extensions.jsp"/>```
+          <jsp:directive.include file="plugins/basicauth-extensions.jsp"/>
     
     5.Add typing.json to IS_Home/repository/resources/identity/authntemplates
-
-  
-  Adding typing dna connector to the identity server
-    build the project & add identity-conditional-auth-typingdna__.jar to IS_Home/repository/components/dropins folder
+    
+    6.build the project & add identity-conditional-auth-typingdna__.jar to IS_Home/repository/components/dropins folder
 
 
 4.Configuring TypingDNA console
