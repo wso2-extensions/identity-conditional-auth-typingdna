@@ -44,7 +44,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 import javax.net.ssl.HttpsURLConnection;
 
 import static org.wso2.carbon.identity.conditional.auth.functions.common.utils.Constants.OUTCOME_FAIL;
@@ -67,30 +66,28 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
         String tenantDomain = user.getWrapped().getTenantDomain();
         String typingPattern = utils.getTypingPattern(context);
 
-        AtomicReference<Long> eCode = new AtomicReference<>(0L);
         AtomicBoolean result = new AtomicBoolean(false);
 
-        //getting connector configurations
+        //Getting connector configurations.
         String APIKey = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.USERNAME, tenantDomain);
         String APISecret = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.CREDENTIAL, tenantDomain);
         String advanced = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ADVANCE_MODE_ENABLED, tenantDomain);
         String region = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.REGION, tenantDomain);
 
-        String userID = DigestUtils.sha256Hex(username + "@" + tenantDomain);
+        String userID = getUserID(username, tenantDomain);
 
-        //selecting the suitable typingDNA API according to the configuration
+        //Selecting the suitable typingDNA API according to the configuration.
         String api = advanced.equals(Constants.TRUE) ? Constants.VERIFY_API : Constants.AUTO_API;
 
         AsyncProcess asyncProcess = new AsyncProcess((authenticationContext, asyncReturn) -> {
             try {
                 if (!(typingPattern == null) && !typingPattern.equals(Constants.NULL)) {
-                    //set typing patterns received true
 
-                    String baseurl = "https://api-" + region + ".typingdna.com/" + api + "/" + userID;
+                    String baseurl = buildURL(region, api, userID);
                     String data = "tp=" + URLEncoder.encode(typingPattern, "UTF-8");
                     String Authorization = Base64.getEncoder().encodeToString((APIKey + ":" + APISecret).getBytes(StandardCharsets.UTF_8));
 
-                    //Setting up URL connection
+                    //Setting up URL connection.
                     URL url = new URL(baseurl);
                     HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
@@ -104,7 +101,7 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
                     wr.writeBytes(data);
                     wr.close();
 
-                    //reading the response
+                    //Reading the response.
                     InputStream is = connection.getInputStream();
                     BufferedReader rd = new BufferedReader(new InputStreamReader(is));
                     StringBuilder res = new StringBuilder();
@@ -118,21 +115,20 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
                     log.debug(res.toString());
 
                     JSONParser parser = new JSONParser();
-                    JSONObject jobj = (JSONObject) parser.parse(res.toString());
-                    eCode.set((Long) jobj.get(Constants.MESSAGE_CODE));
+                    JSONObject apiResponse = (JSONObject) parser.parse(res.toString());
+                    Long eCode = (Long) apiResponse.get(Constants.MESSAGE_CODE);
 
-                    if (eCode.get().equals(1L)) {
-                        Long typingResult = (Long) jobj.get(Constants.RESULT);
-                        result.set(typingResult.equals(1L));  //  verified / not
-
+                    if (eCode.equals(1L)) {
+                        Long typingResult = (Long) apiResponse.get(Constants.RESULT);
+                        result.set(typingResult.equals(1L));
                     }
                     Map<String, Object> map = new HashMap<String, Object>();
                     map.put(Constants.RESULT, result.get());
                     map.put(Constants.TYPING_PATTERN_RECEIVED, true);
-                    if (eCode.get().equals(1L) && advanced.equals(Constants.TRUE)) {
-                        map.put(Constants.SCORE, (Long) jobj.get(Constants.SCORE));
-                        map.put(Constants.CONFIDENCE, (Long) jobj.get(Constants.CONFIDENCE));
-                        map.put(Constants.COMPARED_PATTERNS, (Long) jobj.get(Constants.COMPARED_SAMPLES));
+                    if (eCode.equals(1L) && advanced.equals(Constants.TRUE)) {
+                        map.put(Constants.SCORE, (Long) apiResponse.get(Constants.SCORE));
+                        map.put(Constants.CONFIDENCE, (Long) apiResponse.get(Constants.CONFIDENCE));
+                        map.put(Constants.COMPARED_PATTERNS, (Long) apiResponse.get(Constants.COMPARED_SAMPLES));
                     }
                     asyncReturn.accept(authenticationContext, map, OUTCOME_SUCCESS);
 
@@ -140,7 +136,6 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
                     Map<String, Object> map = new HashMap<String, Object>();
                     map.put(Constants.TYPING_PATTERN_RECEIVED, false);
                     asyncReturn.accept(authenticationContext, map, OUTCOME_SUCCESS);
-
                 }
 
             } catch (UnknownHostException e) {
@@ -152,12 +147,30 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
                 log.error(e.getMessage(), e);
                 log.debug("Error in TypingDNA Configuration");
                 asyncReturn.accept(authenticationContext, Collections.emptyMap(), OUTCOME_FAIL);
+
             } catch (ParseException e) {
                 log.error(e.getMessage(), e);
+                asyncReturn.accept(authenticationContext, Collections.emptyMap(), OUTCOME_FAIL);
             }
 
         });
         JsGraphBuilder.addLongWaitProcess(asyncProcess, eventHandlers);
+    }
+
+    /**
+     * Method to create the request url with configured region,api and userID.
+     */
+    private String buildURL(String region, String api, String userID) {
+
+        return "https://api-" + region + ".typingdna.com/" + api + "/" + userID;
+    }
+
+    /**
+     * Method to create userID used in TypingDNA API call.
+     */
+    private String getUserID(String username, String tenantDomain) {
+
+        return DigestUtils.sha256Hex(username + "@" + tenantDomain);
     }
 
 }

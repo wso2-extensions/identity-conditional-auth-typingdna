@@ -53,23 +53,16 @@ public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunct
         String tenantDomain = user.getWrapped().getTenantDomain();
         String typingPattern = utils.getTypingPattern(context);
 
-        Long eCode = 0L;
-        boolean result = true;
+        //Getting connector configurations.
+        String APIKey = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.USERNAME, tenantDomain);
+        String APISecret = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.CREDENTIAL, tenantDomain);
+        String advanced = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ADVANCE_MODE_ENABLED, tenantDomain);
+        String region = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.REGION, tenantDomain);
 
-        String region = "eu";
-        String advanced = "true";
-        String APIKey;
-        String APISecret;
+        String userID = getUserID(username, tenantDomain);
 
-        //getting connector configurations
-        APIKey = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.USERNAME, tenantDomain);
-        APISecret = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.CREDENTIAL, tenantDomain);
-        advanced = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ADVANCE_MODE_ENABLED, tenantDomain);
-        region = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.REGION, tenantDomain);
-
-        String userID = DigestUtils.sha256Hex(username + "@" + tenantDomain);   //hashing username
-        if (typingPattern != "" && typingPattern != null) {
-            String baseurl = "https://api-" + region + ".typingdna.com/save/" + userID;
+        if (!(typingPattern == null) && !typingPattern.equals(Constants.NULL)) {
+            String baseurl = buildURL(region, userID);
             String data = "tp=" + URLEncoder.encode(typingPattern, "UTF-8");
             String Authorization = Base64.getEncoder().encodeToString((APIKey + ":" + APISecret).getBytes(StandardCharsets.UTF_8));
             URL url = new URL(baseurl);
@@ -94,9 +87,19 @@ public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunct
                 res.append('\r');
             }
             rd.close();
-            log.info(res.toString());
+            log.debug(res.toString());
 
         }
 
+    }
+
+    private String buildURL(String region, String userID) {
+
+        return "https://api-" + region + ".typingdna.com/save" + "/" + userID;
+    }
+
+    private String getUserID(String username, String tenantDomain) {
+
+        return DigestUtils.sha256Hex(username + "@" + tenantDomain);
     }
 }

@@ -6,7 +6,7 @@
 
     <groupId>org.wso2.carbon.identity.conditional.auth.typingdna</groupId>
     <artifactId>identity-conditional-auth-typingdna</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>Conditional Authentication - Custom Functions</name>
     <packaging>bundle</packaging>
 

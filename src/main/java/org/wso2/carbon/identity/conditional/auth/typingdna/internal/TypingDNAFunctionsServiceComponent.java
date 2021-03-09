@@ -29,24 +29,29 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.wso2.carbon.identity.application.authentication.framework.JsFunctionRegistry;
+import org.wso2.carbon.identity.conditional.auth.typingdna.SaveUserInTypingDNAFunction;
+import org.wso2.carbon.identity.conditional.auth.typingdna.SaveUserInTypingDNAFunctionImpl;
+import org.wso2.carbon.identity.conditional.auth.typingdna.TypingDNAConfigImpl;
 import org.wso2.carbon.identity.conditional.auth.typingdna.VerifyUserWithTypingDNAFunction;
 import org.wso2.carbon.identity.conditional.auth.typingdna.VerifyUserWithTypingDNAFunctionImpl;
 import org.wso2.carbon.identity.governance.IdentityGovernanceService;
 import org.wso2.carbon.identity.governance.common.IdentityConnectorConfig;
 import org.wso2.carbon.registry.core.service.RegistryService;
 import org.wso2.carbon.user.core.service.RealmService;
-import org.wso2.carbon.identity.conditional.auth.typingdna.SaveUserInTypingDNAFunction;
-import org.wso2.carbon.identity.conditional.auth.typingdna.SaveUserInTypingDNAFunctionImpl;
-import org.wso2.carbon.identity.conditional.auth.typingdna.TypingDNAConfigImpl;
 
+/**
+ * OSGi declarative services component which handled registration and un-registration of TypingDNA related
+ * functions.
+ */
 
 @Component(
         name = "custom.auth.tdnafunctions.component",
         immediate = true
 )
 
-public class CustomAuthTdnaFunctionComponent {
-    private static final Log LOG = LogFactory.getLog(CustomAuthTdnaFunctionComponent.class);
+public class TypingDNAFunctionsServiceComponent {
+
+    private static final Log LOG = LogFactory.getLog(TypingDNAFunctionsServiceComponent.class);
     private static final String VERIFY_FUNCTION = "verifyUserWithTypingDNA";
     private static final String SAVE_FUNCTION = "saveUserInTypingDNA";
 
@@ -54,8 +59,9 @@ public class CustomAuthTdnaFunctionComponent {
 
     @Activate
     protected void activate(ComponentContext ctxt) {
+
         try {
-            JsFunctionRegistry jsFunctionRegistry = CustomAuthTdnaFunctionHolder.getInstance().getJsFunctionRegistry();
+            JsFunctionRegistry jsFunctionRegistry = TypingDNAFunctionsServiceHolder.getInstance().getJsFunctionRegistry();
             VerifyUserWithTypingDNAFunction verifyUserWithTypingDNAFunctionImpl = new VerifyUserWithTypingDNAFunctionImpl();
             jsFunctionRegistry.register(JsFunctionRegistry.Subsystem.SEQUENCE_HANDLER, VERIFY_FUNCTION,
                     verifyUserWithTypingDNAFunctionImpl);
@@ -66,11 +72,10 @@ public class CustomAuthTdnaFunctionComponent {
 
             BundleContext bundleContext = ctxt.getBundleContext();
             TypingDNAConfigImpl analyticsFunctionConfig = new TypingDNAConfigImpl();
-            bundleContext.registerService(IdentityConnectorConfig.class.getName(), analyticsFunctionConfig,null);
+            bundleContext.registerService(IdentityConnectorConfig.class.getName(), analyticsFunctionConfig, null);
 
-        }
-        catch (Throwable e) {
-            LOG.error("Error while activating CustomAuthTdnaFunctionComponent",e);
+        } catch (Throwable e) {
+            LOG.error("Error while activating CustomAuthTdnaFunctionComponent", e);
         }
     }
 
@@ -95,7 +100,7 @@ public class CustomAuthTdnaFunctionComponent {
         if (LOG.isDebugEnabled()) {
             LOG.debug("RealmService is set in the custom conditional authentication user functions bundle");
         }
-        CustomAuthTdnaFunctionHolder.getInstance().setRealmService(realmService);
+        TypingDNAFunctionsServiceHolder.getInstance().setRealmService(realmService);
     }
 
     protected void unsetRealmService(RealmService realmService) {
@@ -103,7 +108,7 @@ public class CustomAuthTdnaFunctionComponent {
         if (LOG.isDebugEnabled()) {
             LOG.debug("RealmService is unset in the custom conditional authentication user functions bundle");
         }
-        CustomAuthTdnaFunctionHolder.getInstance().setRealmService(null);
+        TypingDNAFunctionsServiceHolder.getInstance().setRealmService(null);
     }
 
     @Reference(
@@ -118,7 +123,7 @@ public class CustomAuthTdnaFunctionComponent {
         if (LOG.isDebugEnabled()) {
             LOG.debug("RegistryService is set in the custom conditional authentication user functions bundle");
         }
-        CustomAuthTdnaFunctionHolder.getInstance().setRegistryService(registryService);
+        TypingDNAFunctionsServiceHolder.getInstance().setRegistryService(registryService);
     }
 
     protected void unsetRegistryService(RegistryService registryService) {
@@ -126,7 +131,7 @@ public class CustomAuthTdnaFunctionComponent {
         if (LOG.isDebugEnabled()) {
             LOG.debug("RegistryService is unset in the custom conditional authentication user functions bundle");
         }
-        CustomAuthTdnaFunctionHolder.getInstance().setRegistryService(null);
+        TypingDNAFunctionsServiceHolder.getInstance().setRegistryService(null);
     }
 
     @Reference(
@@ -137,12 +142,12 @@ public class CustomAuthTdnaFunctionComponent {
     )
     public void setJsFunctionRegistry(JsFunctionRegistry jsFunctionRegistry) {
 
-        CustomAuthTdnaFunctionHolder.getInstance().setJsFunctionRegistry(jsFunctionRegistry);
+        TypingDNAFunctionsServiceHolder.getInstance().setJsFunctionRegistry(jsFunctionRegistry);
     }
 
     public void unsetJsFunctionRegistry(JsFunctionRegistry jsFunctionRegistry) {
 
-        CustomAuthTdnaFunctionHolder.getInstance().setJsFunctionRegistry(null);
+        TypingDNAFunctionsServiceHolder.getInstance().setJsFunctionRegistry(null);
     }
 
     @Reference(
@@ -157,7 +162,7 @@ public class CustomAuthTdnaFunctionComponent {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Identity Governance service is set form functions");
         }
-        CustomAuthTdnaFunctionHolder.getInstance().setIdentityGovernanceService(identityGovernanceService);
+        TypingDNAFunctionsServiceHolder.getInstance().setIdentityGovernanceService(identityGovernanceService);
 
         // Do nothing. Wait for the service before registering the governance connector.
     }
@@ -167,11 +172,8 @@ public class CustomAuthTdnaFunctionComponent {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Identity Governance service is unset from functions");
         }
-        CustomAuthTdnaFunctionHolder.getInstance().setIdentityGovernanceService(null);
+        TypingDNAFunctionsServiceHolder.getInstance().setIdentityGovernanceService(null);
         // Do nothing.
     }
-
-
-
 
 }

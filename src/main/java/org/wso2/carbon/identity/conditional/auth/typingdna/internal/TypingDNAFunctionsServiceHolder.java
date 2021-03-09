@@ -23,19 +23,20 @@ import org.wso2.carbon.identity.governance.IdentityGovernanceService;
 import org.wso2.carbon.registry.core.service.RegistryService;
 import org.wso2.carbon.user.core.service.RealmService;
 
-public class CustomAuthTdnaFunctionHolder {
-    private static final CustomAuthTdnaFunctionHolder instance = new CustomAuthTdnaFunctionHolder();
+public class TypingDNAFunctionsServiceHolder {
+
+    private static final TypingDNAFunctionsServiceHolder instance = new TypingDNAFunctionsServiceHolder();
 
     private RealmService realmService;
     private RegistryService registryService;
     private JsFunctionRegistry jsFunctionRegistry;
     private IdentityGovernanceService identityGovernanceService;
 
-    private CustomAuthTdnaFunctionHolder() {
+    private TypingDNAFunctionsServiceHolder() {
 
     }
 
-    public static CustomAuthTdnaFunctionHolder getInstance() {
+    public static TypingDNAFunctionsServiceHolder getInstance() {
 
         return instance;
     }
@@ -71,12 +72,13 @@ public class CustomAuthTdnaFunctionHolder {
     }
 
     public IdentityGovernanceService getIdentityGovernanceService() {
+
         return identityGovernanceService;
     }
 
     public void setIdentityGovernanceService(IdentityGovernanceService identityGovernanceService) {
+
         this.identityGovernanceService = identityGovernanceService;
     }
-
 
 }

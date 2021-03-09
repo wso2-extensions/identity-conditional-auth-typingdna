@@ -19,6 +19,7 @@
 package org.wso2.carbon.identity.conditional.auth.typingdna;
 
 public abstract class Constants {
+
     public static final String RESULT = "result";
     public static final String SCORE = "score";
     public static final String CONFIDENCE = "confidence";
