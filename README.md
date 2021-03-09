@@ -2,23 +2,13 @@
 
 *skip the first two steps if you have Identity Server with configured sample Application.
 
-<<<<<<< HEAD
 1.Before starting with Typing Biometric Authentication. You should set up an identity server.
 
 2.Then deploy a sample application
-
-3.After that you need to add the connector & extensions to the folder
-
-
-=======
-1.Before starting with Typing Biometric Authentication. You should set up an identity server. 
-
-2.Then deploy a sample application 
   
 3.After that you need to add the connector & extensions to the folder
 
     
->>>>>>> 6c0477adda925290d5a5f1f895d17fa4152e8557
     1.Download typing-dna.zip & extract it 
     
     2.Copy the files inside plugins folder and paste them to IS_Home/repository/deployment/server/webapps/authenticationendpoint/plugins
