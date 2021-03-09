@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="185dc1be-fa24-4fa0-a745-855d9b428c86" name="Default Changelist" comment="&quot;Typing biometric adaptive authentication function&quot;" />
+    <list default="true" id="185dc1be-fa24-4fa0-a745-855d9b428c86" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/typing-dna.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,7 +61,21 @@
       <option name="project" value="LOCAL" />
       <updated>1615308615860</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="&quot;Typing biometric adaptive authentication function&quot;">
+      <created>1615309049588</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1615309049588</updated>
+    </task>
+    <task id="LOCAL-00005" summary="&quot;Typing biometric adaptive authentication function&quot;">
+      <created>1615309097909</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1615309097909</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
