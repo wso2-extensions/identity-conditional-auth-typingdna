@@ -73,7 +73,7 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
         String APISecret = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.CREDENTIAL, tenantDomain);
         String advanced = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ADVANCE_MODE_ENABLED, tenantDomain);
         String region = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.REGION, tenantDomain);
-
+        String Enabled = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ENABLE, tenantDomain);
         String userID = getUserID(username, tenantDomain);
 
         //Selecting the suitable typingDNA API according to the configuration.
@@ -81,7 +81,7 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
 
         AsyncProcess asyncProcess = new AsyncProcess((authenticationContext, asyncReturn) -> {
             try {
-                if (!(typingPattern == null) && !typingPattern.equals(Constants.NULL)) {
+                if (!(typingPattern == null) && !typingPattern.equals(Constants.NULL) && Enabled.equals(Constants.TRUE)) {
 
                     String baseurl = buildURL(region, api, userID);
                     String data = "tp=" + URLEncoder.encode(typingPattern, "UTF-8");

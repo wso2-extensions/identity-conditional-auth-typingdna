@@ -15,83 +15,83 @@
         <dependency>
             <groupId>commons-lang.wso2</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.6.0.wso2v1</version>
+            <version>${commons-lang.wso2.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.logging</artifactId>
-            <version>4.4.3</version>
+            <version>${carbon.logging.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.core</artifactId>
-            <version>4.5.1</version>
+            <version>${carbon.kernel.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.user.core</artifactId>
-            <version>4.5.1</version>
+            <version>${carbon.kernel.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.identity.framework</groupId>
             <artifactId>org.wso2.carbon.identity.application.authentication.framework</artifactId>
-            <version>5.14.97</version>
+            <version>${carbon.identity.framework.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.identity.framework</groupId>
             <artifactId>org.wso2.carbon.identity.testutil</artifactId>
-            <version>5.14.97</version>
+            <version>${carbon.identity.framework.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.identity.framework</groupId>
             <artifactId>org.wso2.carbon.identity.application.common</artifactId>
-            <version>5.14.97</version>
+            <version>${carbon.identity.framework.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.identity.framework</groupId>
             <artifactId>org.wso2.carbon.identity.core</artifactId>
-            <version>5.14.97</version>
+            <version>${carbon.identity.framework.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.utils</artifactId>
-            <version>4.5.1</version>
+            <version>${carbon.kernel.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.minidev</groupId>
             <artifactId>json-smart</artifactId>
-            <version>2.3</version>
+            <version>${json-smart.version}</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple.wso2</groupId>
             <artifactId>json-simple</artifactId>
-            <version>1.1.wso2v1</version>
+            <version>${com.googlecode.json-simple.wso2.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.8.5</version>
+            <version>${com.google.code.gson.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-            <version>1.9</version>
+            <version>${commons-codec.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.identity.governance</groupId>
             <artifactId>org.wso2.carbon.identity.governance</artifactId>
-            <version>1.4.90</version>
+            <version>${identity.governance.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.identity.conditional.auth.functions</groupId>
             <artifactId>org.wso2.carbon.identity.conditional.auth.functions.common</artifactId>
-            <version>1.1.6</version>
+            <version>${carbon.identity.conditional.auth.functions.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
+            <version>${javax.servlet.service-api.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -176,37 +176,45 @@
                         </Export-Package>
                         <Import-Package>
                             org.wso2.carbon.identity.application.common.*,
-                            org.wso2.carbon.user.api.*,
+                            org.wso2.carbon.user.api.*;version="${carbon.user.api.imp.pkg.version.range}",
                             org.wso2.carbon.identity.conditional.auth.functions.user.*,
                             org.wso2.carbon.identity.conditional.auth.functions.common.*,
                             org.apache.commons.lang,
                             org.apache.commons.logging,
-                            org.osgi.service.component,
-                            org.osgi.service.component.annotations,
-                            org.osgi.framework,
+                            org.osgi.service.component;version="${osgi.service.component.imp.pkg.version.range}",
+                            org.osgi.service.component.annotations;version="${osgi.service.component.imp.pkg.version.range}",
+                            org.osgi.framework;version="${osgi.framework.imp.pkg.version.range}",
                             org.wso2.carbon,
                             org.wso2.carbon.core.util,
                             org.wso2.carbon.identity.core.util,
-                            org.wso2.carbon.identity.application.authentication.framework,
-                            org.wso2.carbon.identity.application.authentication.framework.util,
-                            org.wso2.carbon.identity.application.authentication.framework.exception,
-                            org.wso2.carbon.identity.application.authentication.framework.model,
-                            org.wso2.carbon.identity.application.authentication.framework.config.model.graph.js,
-                            org.wso2.carbon.identity.application.authentication.framework.config.model.graph,
-                            org.wso2.carbon.identity.application.authentication.framework.config.model,
-                            org.wso2.carbon.identity.application.authentication.framework.context,
+                            org.wso2.carbon.identity.application.authentication.framework;
+                            version="${carbon.identity.framework.imp.pkg.version.range}",
+                            org.wso2.carbon.identity.application.authentication.framework.util;
+                            version="${carbon.identity.framework.imp.pkg.version.range}",
+                            org.wso2.carbon.identity.application.authentication.framework.exception;
+                            version="${carbon.identity.framework.imp.pkg.version.range}",
+                            org.wso2.carbon.identity.application.authentication.framework.model;
+                            version="${carbon.identity.framework.imp.pkg.version.range}",
+                            org.wso2.carbon.identity.application.authentication.framework.config.model.graph.js;
+                            version="${carbon.identity.framework.imp.pkg.version.range}",
+                            org.wso2.carbon.identity.application.authentication.framework.config.model.graph;
+                            version="${carbon.identity.framework.imp.pkg.version.range}",
+                            org.wso2.carbon.identity.application.authentication.framework.config.model;
+                            version="${carbon.identity.framework.imp.pkg.version.range}",
+                            org.wso2.carbon.identity.application.authentication.framework.context;
+                            version="${carbon.identity.framework.imp.pkg.version.range}",
                             org.wso2.carbon.identity.application.common.model,
                             org.wso2.carbon.identity.governance,
                             org.wso2.carbon.identity.governance.common,
                             org.wso2.carbon.identity.event,
                             org.apache.commons.collections,
                             org.wso2.carbon.registry.core.service,
-                            org.wso2.carbon.user.core,
-                            org.wso2.carbon.user.core.claim,
-                            org.wso2.carbon.user.core.service,
+                            org.wso2.carbon.user.core;version="${carbon.kernel.package.import.version.range}",
+                            org.wso2.carbon.user.core.claim;version="${carbon.kernel.package.import.version.range}",
+                            org.wso2.carbon.user.core.service;version="${carbon.kernel.package.import.version.range}",
                             org.json.simple,
                             org.json.simple.parser,
-                            javax.servlet.http
+                            javax.servlet.http;version="${imp.pkg.version.javax.servlet}"
                         </Import-Package>
                     </instructions>
                 </configuration>
@@ -217,4 +225,27 @@
             </plugin>
         </plugins>
     </build>
+    <properties>
+        <carbon.kernel.version>4.5.1</carbon.kernel.version>
+        <identity.governance.version>1.4.90</identity.governance.version>
+        <com.googlecode.json-simple.wso2.version>1.1.wso2v1</com.googlecode.json-simple.wso2.version>
+        <json-smart.version>2.3</json-smart.version>
+        <carbon.identity.framework.version>5.14.97</carbon.identity.framework.version>
+        <commons-lang.wso2.version>2.6.0.wso2v1</commons-lang.wso2.version>
+        <com.google.code.gson.version>2.8.5</com.google.code.gson.version>
+        <commons-codec.version>1.9</commons-codec.version>
+        <carbon.identity.conditional.auth.functions.version>1.1.6</carbon.identity.conditional.auth.functions.version>
+        <javax.servlet.service-api.version>2.5</javax.servlet.service-api.version>
+        <carbon.logging.version>4.4.3</carbon.logging.version>
+        <carbon.kernel.package.import.version.range>[4.5.1, 5.0.0)</carbon.kernel.package.import.version.range>
+        <imp.pkg.version.javax.servlet>[2.5.0, 3.0.0)</imp.pkg.version.javax.servlet>
+        <carbon.identity.framework.imp.pkg.version.range>[5.14.97, 6.0.0)
+        </carbon.identity.framework.imp.pkg.version.range>
+        <osgi.framework.imp.pkg.version.range>[1.7.0, 2.0.0)</osgi.framework.imp.pkg.version.range>
+        <osgi.service.component.imp.pkg.version.range>[1.2.0, 2.0.0)</osgi.service.component.imp.pkg.version.range>
+        <carbon.identity.conditional.auth.functions.imp.pkg.version.range>[1.1.6, 2.0.0)
+        </carbon.identity.conditional.auth.functions.imp.pkg.version.range>
+        <carbon.user.api.imp.pkg.version.range>[1.0.1, 2.0.0)</carbon.user.api.imp.pkg.version.range>
+        <identity.governance.imp.pkg.version.range>[1.4.90, 2.0.0)</identity.governance.imp.pkg.version.range>
+    </properties>
 </project>
