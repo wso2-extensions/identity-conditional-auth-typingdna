@@ -25,5 +25,9 @@ import java.util.Map;
 @FunctionalInterface
 public interface VerifyUserWithTypingDNAFunction {
 
+    /**
+     * Custom adaptive function for VERIFY
+     * users typing pattern in TypingDNA.
+     */
     void verifyUserWithTypingDNA(JsAuthenticationContext context, Map<String, Object> eventHandlers) throws Exception;
 }

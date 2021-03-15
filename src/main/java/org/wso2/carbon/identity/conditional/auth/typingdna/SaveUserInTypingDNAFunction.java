@@ -23,5 +23,9 @@ import org.wso2.carbon.identity.application.authentication.framework.config.mode
 @FunctionalInterface
 public interface SaveUserInTypingDNAFunction {
 
+    /**
+     * Custom adaptive function for Save
+     * users typing pattern in TypingDNA.
+     */
     void saveUserInTypingDNA(JsAuthenticationContext context) throws Exception;
 }

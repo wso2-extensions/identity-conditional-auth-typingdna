@@ -87,6 +87,8 @@ public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunct
                 res.append('\r');
             }
             rd.close();
+
+            //Response from TypingDNA
             log.debug(res.toString());
 
         }

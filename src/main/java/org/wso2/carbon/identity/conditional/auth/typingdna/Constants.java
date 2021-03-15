@@ -18,6 +18,10 @@
 
 package org.wso2.carbon.identity.conditional.auth.typingdna;
 
+/**
+ * Constants used in verifyUserWithTypingDNA, saveUserInTypingDNA functions.
+ */
+
 public abstract class Constants {
 
     public static final String RESULT = "result";

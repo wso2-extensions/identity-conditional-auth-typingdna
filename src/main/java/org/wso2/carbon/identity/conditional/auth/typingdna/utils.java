@@ -52,7 +52,9 @@ public class utils {
         }
     }
 
-
+    /**
+     * Unused method. Showing an Error page if admin configured credentials wrong.
+     */
 
     public static void showError() {
 

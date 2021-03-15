@@ -112,6 +112,7 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
                     }
                     rd.close();
 
+                    //Response from TypingDNA.
                     log.debug(res.toString());
 
                     JSONParser parser = new JSONParser();
