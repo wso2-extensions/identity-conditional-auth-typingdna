@@ -32,7 +32,7 @@ import java.util.Map;
  * class that implements methods to extract User details and
  * typing patterns from the context
  */
-public class utils {
+public class Utils {
 
     public static JsAuthenticatedUser getUser(JsAuthenticationContext context) {
 

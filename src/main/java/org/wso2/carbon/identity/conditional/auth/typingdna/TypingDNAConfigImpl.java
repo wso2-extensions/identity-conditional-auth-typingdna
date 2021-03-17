@@ -95,8 +95,8 @@ public class TypingDNAConfigImpl implements IdentityConnectorConfig {
         Map<String, String> mapping = new HashMap<>();
 
         mapping.put(ENABLE, "Enable TypingDNA Authentication");
-        mapping.put(USERNAME, "Typing DNA API Key");
-        mapping.put(CREDENTIAL, "Typing DNA API Secret");
+        mapping.put(USERNAME, "TypingDNA API Key");
+        mapping.put(CREDENTIAL, "TypingDNA API Secret");
         mapping.put(ADVANCE_MODE_ENABLED, "Enable if your typingDNA account is pro");
         mapping.put(REGION, "TypingDNA Cloud Region. eu / us");
 

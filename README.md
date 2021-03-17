@@ -9,7 +9,7 @@
 3.After that you need to add the connector & extensions to the folder
 
     
-    1.Download typing-dna.zip & extract it 
+    1.Download the resources/typing-dna folder
     
     2.Copy the files inside plugins folder and paste them to IS_Home/repository/deployment/server/webapps/authenticationendpoint/plugins
     *copy the whole plugins folder if there is no plugins inside the authentication endpoint already 

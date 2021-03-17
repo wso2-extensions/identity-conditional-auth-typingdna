@@ -47,10 +47,10 @@ public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunct
     @Override
     public void saveUserInTypingDNA(JsAuthenticationContext context) throws Exception {
 
-        JsAuthenticatedUser user = utils.getUser(context);
+        JsAuthenticatedUser user = Utils.getUser(context);
         String username = user.getWrapped().getUserName();
         String tenantDomain = user.getWrapped().getTenantDomain();
-        String typingPattern = utils.getTypingPattern(context);
+        String typingPattern = Utils.getTypingPattern(context);
 
         // Getting connector configurations.
         String APIKey = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.USERNAME, tenantDomain);
@@ -90,7 +90,9 @@ public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunct
             rd.close();
 
             // Response from TypingDNA
-            log.debug(res.toString());
+            if (log.isDebugEnabled()) {
+                log.debug("Response from TypingDNA: "+res.toString());
+            }
 
         }
 

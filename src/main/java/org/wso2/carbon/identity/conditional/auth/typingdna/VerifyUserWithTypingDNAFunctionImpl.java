@@ -63,10 +63,10 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
     public void verifyUserWithTypingDNA(JsAuthenticationContext context, Map<String, Object> eventHandlers) throws TypingDNAAuthenticatorException {
 
         try {
-            JsAuthenticatedUser user = utils.getUser(context);
+            JsAuthenticatedUser user = Utils.getUser(context);
             String username = user.getWrapped().getUserName();
             String tenantDomain = user.getWrapped().getTenantDomain();
-            String typingPattern = utils.getTypingPattern(context);
+            String typingPattern = Utils.getTypingPattern(context);
 
             AtomicBoolean result = new AtomicBoolean(false);
 
@@ -116,7 +116,9 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
                         rd.close();
 
                         // Response from TypingDNA.
-                        log.debug(res.toString());
+                        if (log.isDebugEnabled()) {
+                            log.debug("Response from TypingDNA: "+res.toString());
+                        }
 
                         JSONParser parser = new JSONParser();
                         JSONObject apiResponse = (JSONObject) parser.parse(res.toString());
