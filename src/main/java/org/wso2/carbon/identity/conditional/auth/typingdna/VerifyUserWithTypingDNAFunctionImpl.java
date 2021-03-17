@@ -29,6 +29,8 @@ import org.wso2.carbon.identity.application.authentication.framework.config.mode
 import org.wso2.carbon.identity.application.authentication.framework.config.model.graph.js.JsAuthenticatedUser;
 import org.wso2.carbon.identity.application.authentication.framework.config.model.graph.js.JsAuthenticationContext;
 import org.wso2.carbon.identity.conditional.auth.functions.common.utils.CommonUtils;
+import org.wso2.carbon.identity.event.IdentityEventException;
+import org.wso2.carbon.identity.conditional.auth.typingdna.exception.TypingDNAAuthenticatorException;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -53,109 +55,113 @@ import static org.wso2.carbon.identity.conditional.auth.functions.common.utils.C
  * Custom adaptive function implementation for verifying
  * users typing pattern with TypingDNA.
  */
-
 public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTypingDNAFunction {
 
     private static final Log log = LogFactory.getLog(VerifyUserWithTypingDNAFunctionImpl.class);
 
     @Override
-    public void verifyUserWithTypingDNA(JsAuthenticationContext context, Map<String, Object> eventHandlers) throws Exception {
+    public void verifyUserWithTypingDNA(JsAuthenticationContext context, Map<String, Object> eventHandlers) throws TypingDNAAuthenticatorException {
 
-        JsAuthenticatedUser user = utils.getUser(context);
-        String username = user.getWrapped().getUserName();
-        String tenantDomain = user.getWrapped().getTenantDomain();
-        String typingPattern = utils.getTypingPattern(context);
+        try {
+            JsAuthenticatedUser user = utils.getUser(context);
+            String username = user.getWrapped().getUserName();
+            String tenantDomain = user.getWrapped().getTenantDomain();
+            String typingPattern = utils.getTypingPattern(context);
 
-        AtomicBoolean result = new AtomicBoolean(false);
+            AtomicBoolean result = new AtomicBoolean(false);
 
-        //Getting connector configurations.
-        String APIKey = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.USERNAME, tenantDomain);
-        String APISecret = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.CREDENTIAL, tenantDomain);
-        String advanced = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ADVANCE_MODE_ENABLED, tenantDomain);
-        String region = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.REGION, tenantDomain);
-        String Enabled = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ENABLE, tenantDomain);
-        String userID = getUserID(username, tenantDomain);
+            // Getting connector configurations.
+            String APIKey = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.USERNAME, tenantDomain);
+            String APISecret = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.CREDENTIAL, tenantDomain);
+            String advanced = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ADVANCE_MODE_ENABLED, tenantDomain);
+            String region = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.REGION, tenantDomain);
+            String Enabled = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ENABLE, tenantDomain);
 
-        //Selecting the suitable typingDNA API according to the configuration.
-        String api = advanced.equals(Constants.TRUE) ? Constants.VERIFY_API : Constants.AUTO_API;
+            String userID = getUserID(username, tenantDomain);
 
-        AsyncProcess asyncProcess = new AsyncProcess((authenticationContext, asyncReturn) -> {
-            try {
-                if (!(typingPattern == null) && !typingPattern.equals(Constants.NULL) && Enabled.equals(Constants.TRUE)) {
+            // Selecting the suitable typingDNA API according to the configuration.
+            String api = advanced.equals(Constants.TRUE) ? Constants.VERIFY_API : Constants.AUTO_API;
 
-                    String baseurl = buildURL(region, api, userID);
-                    String data = "tp=" + URLEncoder.encode(typingPattern, "UTF-8");
-                    String Authorization = Base64.getEncoder().encodeToString((APIKey + ":" + APISecret).getBytes(StandardCharsets.UTF_8));
+            AsyncProcess asyncProcess = new AsyncProcess((authenticationContext, asyncReturn) -> {
+                try {
+                    if (!(typingPattern == null) && !typingPattern.equals(Constants.NULL) && Enabled.equals(Constants.TRUE)) {
 
-                    //Setting up URL connection.
-                    URL url = new URL(baseurl);
-                    HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-                    connection.setRequestMethod("POST");
-                    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                    connection.setRequestProperty("Authorization", "Basic " + Authorization);
+                        String baseurl = buildURL(region, api, userID);
+                        String data = "tp=" + URLEncoder.encode(typingPattern, "UTF-8");
+                        String Authorization = Base64.getEncoder().encodeToString((APIKey + ":" + APISecret).getBytes(StandardCharsets.UTF_8));
 
-                    connection.setUseCaches(false);
-                    connection.setDoOutput(true);
+                        // Setting up URL connection.
+                        URL url = new URL(baseurl);
+                        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+                        connection.setRequestMethod("POST");
+                        connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                        connection.setRequestProperty("Authorization", "Basic " + Authorization);
 
-                    DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-                    wr.writeBytes(data);
-                    wr.close();
+                        connection.setUseCaches(false);
+                        connection.setDoOutput(true);
 
-                    //Reading the response.
-                    InputStream is = connection.getInputStream();
-                    BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                    StringBuilder res = new StringBuilder();
-                    String line;
-                    while ((line = rd.readLine()) != null) {
-                        res.append(line);
-                        res.append('\r');
+                        DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+                        wr.writeBytes(data);
+                        wr.close();
+
+                        // Reading the response.
+                        InputStream is = connection.getInputStream();
+                        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                        StringBuilder res = new StringBuilder();
+                        String line;
+                        while ((line = rd.readLine()) != null) {
+                            res.append(line);
+                            res.append('\r');
+                        }
+                        rd.close();
+
+                        // Response from TypingDNA.
+                        log.debug(res.toString());
+
+                        JSONParser parser = new JSONParser();
+                        JSONObject apiResponse = (JSONObject) parser.parse(res.toString());
+                        Long eCode = (Long) apiResponse.get(Constants.MESSAGE_CODE);
+
+                        if (eCode.equals(1L)) {
+                            Long typingResult = (Long) apiResponse.get(Constants.RESULT);
+                            result.set(typingResult.equals(1L));
+                        }
+                        Map<String, Object> map = new HashMap<String, Object>();
+                        map.put(Constants.RESULT, result.get());
+                        map.put(Constants.TYPING_PATTERN_RECEIVED, true);
+                        if (eCode.equals(1L) && advanced.equals(Constants.TRUE)) {
+                            map.put(Constants.SCORE, (Long) apiResponse.get(Constants.SCORE));
+                            map.put(Constants.CONFIDENCE, (Long) apiResponse.get(Constants.CONFIDENCE));
+                            map.put(Constants.COMPARED_PATTERNS, (Long) apiResponse.get(Constants.COMPARED_SAMPLES));
+                        }
+                        asyncReturn.accept(authenticationContext, map, OUTCOME_SUCCESS);
+
+                    } else {
+                        Map<String, Object> map = new HashMap<String, Object>();
+                        map.put(Constants.TYPING_PATTERN_RECEIVED, false);
+                        asyncReturn.accept(authenticationContext, map, OUTCOME_SUCCESS);
                     }
-                    rd.close();
 
-                    //Response from TypingDNA.
-                    log.debug(res.toString());
+                } catch (UnknownHostException e) {
+                    log.error(e.getMessage(), e);
+                    log.debug("Error while connecting to TypingDNA APIs");
+                    asyncReturn.accept(authenticationContext, Collections.emptyMap(), OUTCOME_FAIL);
 
-                    JSONParser parser = new JSONParser();
-                    JSONObject apiResponse = (JSONObject) parser.parse(res.toString());
-                    Long eCode = (Long) apiResponse.get(Constants.MESSAGE_CODE);
+                } catch (IOException e) {
+                    log.error(e.getMessage(), e);
+                    log.debug("Error in TypingDNA Configuration");
+                    asyncReturn.accept(authenticationContext, Collections.emptyMap(), OUTCOME_FAIL);
 
-                    if (eCode.equals(1L)) {
-                        Long typingResult = (Long) apiResponse.get(Constants.RESULT);
-                        result.set(typingResult.equals(1L));
-                    }
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    map.put(Constants.RESULT, result.get());
-                    map.put(Constants.TYPING_PATTERN_RECEIVED, true);
-                    if (eCode.equals(1L) && advanced.equals(Constants.TRUE)) {
-                        map.put(Constants.SCORE, (Long) apiResponse.get(Constants.SCORE));
-                        map.put(Constants.CONFIDENCE, (Long) apiResponse.get(Constants.CONFIDENCE));
-                        map.put(Constants.COMPARED_PATTERNS, (Long) apiResponse.get(Constants.COMPARED_SAMPLES));
-                    }
-                    asyncReturn.accept(authenticationContext, map, OUTCOME_SUCCESS);
-
-                } else {
-                    Map<String, Object> map = new HashMap<String, Object>();
-                    map.put(Constants.TYPING_PATTERN_RECEIVED, false);
-                    asyncReturn.accept(authenticationContext, map, OUTCOME_SUCCESS);
+                } catch (ParseException e) {
+                    log.error(e.getMessage(), e);
+                    asyncReturn.accept(authenticationContext, Collections.emptyMap(), OUTCOME_FAIL);
                 }
 
-            } catch (UnknownHostException e) {
-                log.error(e.getMessage(), e);
-                log.debug("Error while connecting to TypingDNA APIs");
-                asyncReturn.accept(authenticationContext, Collections.emptyMap(), OUTCOME_FAIL);
-
-            } catch (IOException e) {
-                log.error(e.getMessage(), e);
-                log.debug("Error in TypingDNA Configuration");
-                asyncReturn.accept(authenticationContext, Collections.emptyMap(), OUTCOME_FAIL);
-
-            } catch (ParseException e) {
-                log.error(e.getMessage(), e);
-                asyncReturn.accept(authenticationContext, Collections.emptyMap(), OUTCOME_FAIL);
-            }
-
-        });
-        JsGraphBuilder.addLongWaitProcess(asyncProcess, eventHandlers);
+            });
+            JsGraphBuilder.addLongWaitProcess(asyncProcess, eventHandlers);
+        } catch (IdentityEventException e) {
+            throw new TypingDNAAuthenticatorException("Can not retrieve configurations", e);
+        }
     }
 
     /**

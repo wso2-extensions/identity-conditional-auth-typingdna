@@ -21,7 +21,6 @@ package org.wso2.carbon.identity.conditional.auth.typingdna.exception;
 /**
  * Custom Exception for TypingDNA authentication.
  */
-
 public class TypingDNAAuthenticatorException extends Exception {
 
     public TypingDNAAuthenticatorException(String msg) {

@@ -31,7 +31,6 @@ import java.util.Properties;
 /**
  * Governance connector used to configure the parameters need invoke the TypingDNA Authentication.
  */
-
 public class TypingDNAConfigImpl implements IdentityConnectorConfig {
 
     public static final String ENABLE = "adaptive_authentication.tdna.enable";

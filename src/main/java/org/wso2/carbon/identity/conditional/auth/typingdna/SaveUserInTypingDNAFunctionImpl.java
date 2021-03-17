@@ -40,7 +40,6 @@ import javax.net.ssl.HttpsURLConnection;
  * Custom adaptive function implementation for Save
  * users typing pattern in TypingDNA.
  */
-
 public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunction {
 
     private static final Log log = LogFactory.getLog(VerifyUserWithTypingDNAFunctionImpl.class);
@@ -53,7 +52,7 @@ public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunct
         String tenantDomain = user.getWrapped().getTenantDomain();
         String typingPattern = utils.getTypingPattern(context);
 
-        //Getting connector configurations.
+        // Getting connector configurations.
         String APIKey = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.USERNAME, tenantDomain);
         String APISecret = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.CREDENTIAL, tenantDomain);
         String advanced = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ADVANCE_MODE_ENABLED, tenantDomain);
@@ -65,6 +64,8 @@ public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunct
             String baseurl = buildURL(region, userID);
             String data = "tp=" + URLEncoder.encode(typingPattern, "UTF-8");
             String Authorization = Base64.getEncoder().encodeToString((APIKey + ":" + APISecret).getBytes(StandardCharsets.UTF_8));
+
+            // Setting up URL connection.
             URL url = new URL(baseurl);
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
@@ -88,7 +89,7 @@ public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunct
             }
             rd.close();
 
-            //Response from TypingDNA
+            // Response from TypingDNA
             log.debug(res.toString());
 
         }
