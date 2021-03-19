@@ -53,7 +53,7 @@ public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunct
      * Function to send save request to typingDNA APIs.
      *
      * @param context Context from authentication flow.
-     * @throws Exception
+     * @throws TypingDNAAuthenticatorException When unable to retrieve tenant configurations.
      */
     @Override
     public void saveUserInTypingDNA(JsAuthenticationContext context) throws TypingDNAAuthenticatorException {
@@ -67,14 +67,14 @@ public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunct
             // Getting connector configurations.
             String APIKey = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.USERNAME, tenantDomain);
             String APISecret = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.CREDENTIAL, tenantDomain);
-            String advanced = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ADVANCE_MODE_ENABLED, tenantDomain);
+            boolean isAdvanceModeEnabled = Boolean.parseBoolean(CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ADVANCE_MODE_ENABLED, tenantDomain));
             String region = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.REGION, tenantDomain);
-            String Enabled = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ENABLE, tenantDomain);
+            boolean isTypingDNAEnabled = Boolean.parseBoolean(CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ENABLE, tenantDomain));
 
             String userID = getUserID(username, tenantDomain);
 
             if (StringUtils.isNotBlank(typingPattern) && !StringUtils.equalsIgnoreCase(Constants.NULL, typingPattern)
-                    && Enabled.equals(Constants.TRUE)) {
+                    && isTypingDNAEnabled && isAdvanceModeEnabled) {
                 String baseurl = buildURL(region, userID);
                 String data = "tp=" + URLEncoder.encode(typingPattern, "UTF-8");
                 String Authorization = Base64.getEncoder().encodeToString((APIKey + ":" + APISecret).getBytes(StandardCharsets.UTF_8));
@@ -103,7 +103,7 @@ public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunct
                 }
                 rd.close();
 
-                // Response from TypingDNA
+                // Response from TypingDNA.
                 if (log.isDebugEnabled()) {
                     log.debug("Response from TypingDNA: " + res.toString());
                 }

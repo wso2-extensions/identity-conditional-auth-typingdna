@@ -19,6 +19,7 @@
 package org.wso2.carbon.identity.conditional.auth.typingdna;
 
 import org.wso2.carbon.identity.application.authentication.framework.config.model.graph.js.JsAuthenticationContext;
+import org.wso2.carbon.identity.conditional.auth.typingdna.exception.TypingDNAAuthenticatorException;
 
 import java.util.Map;
 
@@ -26,8 +27,12 @@ import java.util.Map;
 public interface VerifyUserWithTypingDNAFunction {
 
     /**
-     * Custom adaptive function for VERIFY
-     * users typing pattern in TypingDNA.
+     * Custom adaptive function to verify users with TypingDNA.
+     *
+     * @param context       Context from authentication flow.
+     * @param eventHandlers Defines the flow of process in onSuccess & onFail.
+     * @throws TypingDNAAuthenticatorException When unable to retrieve tenant configurations.
      */
-    void verifyUserWithTypingDNA(JsAuthenticationContext context, Map<String, Object> eventHandlers) throws Exception;
+    void verifyUserWithTypingDNA(JsAuthenticationContext context, Map<String, Object> eventHandlers)
+            throws TypingDNAAuthenticatorException;
 }

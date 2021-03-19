@@ -19,13 +19,16 @@
 package org.wso2.carbon.identity.conditional.auth.typingdna;
 
 import org.wso2.carbon.identity.application.authentication.framework.config.model.graph.js.JsAuthenticationContext;
+import org.wso2.carbon.identity.conditional.auth.typingdna.exception.TypingDNAAuthenticatorException;
 
 @FunctionalInterface
 public interface SaveUserInTypingDNAFunction {
 
     /**
-     * Custom adaptive function for Save
-     * users typing pattern in TypingDNA.
+     * Custom adaptive function for save users' typing pattern in TypingDNA.
+     *
+     * @param context Context from authentication flow.
+     * @throws Exception When unable to retrieve tenant configurations.
      */
-    void saveUserInTypingDNA(JsAuthenticationContext context) throws Exception;
+    void saveUserInTypingDNA(JsAuthenticationContext context) throws TypingDNAAuthenticatorException;
 }

@@ -64,8 +64,8 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
      * Function to send verify request to typingDNA APIs.
      *
      * @param context       Context from authentication flow.
-     * @param eventHandlers
-     * @throws TypingDNAAuthenticatorException
+     * @param eventHandlers Defines the flow of process in onSuccess & onFail.
+     * @throws TypingDNAAuthenticatorException When unable to retrieve tenant configurations.
      */
     @Override
     public void verifyUserWithTypingDNA(JsAuthenticationContext context, Map<String, Object> eventHandlers) throws TypingDNAAuthenticatorException {
@@ -81,19 +81,19 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
             // Getting connector configurations.
             String APIKey = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.USERNAME, tenantDomain);
             String APISecret = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.CREDENTIAL, tenantDomain);
-            String advanced = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ADVANCE_MODE_ENABLED, tenantDomain);
+            boolean isAdvanceModeEnabled = Boolean.parseBoolean(CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ADVANCE_MODE_ENABLED, tenantDomain));
             String region = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.REGION, tenantDomain);
-            String Enabled = CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ENABLE, tenantDomain);
+            boolean isTypingDNAEnabled = Boolean.parseBoolean(CommonUtils.getConnectorConfig(TypingDNAConfigImpl.ENABLE, tenantDomain));
 
             String userID = getUserID(username, tenantDomain);
 
             // Selecting the suitable typingDNA API according to the configuration.
-            String api = advanced.equals(Constants.TRUE) ? Constants.VERIFY_API : Constants.AUTO_API;
+            String api = isAdvanceModeEnabled ? Constants.VERIFY_API : Constants.AUTO_API;
 
             AsyncProcess asyncProcess = new AsyncProcess((authenticationContext, asyncReturn) -> {
                 try {
                     if (StringUtils.isNotBlank(typingPattern) && !StringUtils.equalsIgnoreCase(Constants.NULL, typingPattern)
-                            && Enabled.equals(Constants.TRUE)) {
+                            && isTypingDNAEnabled) {
 
                         String baseurl = buildURL(region, api, userID);
                         String data = "tp=" + URLEncoder.encode(typingPattern, "UTF-8");
@@ -126,7 +126,7 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
 
                         // Response from TypingDNA.
                         if (log.isDebugEnabled()) {
-                            log.debug("Response from TypingDNA for the user  " + username + ":  " + res.toString());
+                            log.debug("Response from TypingDNA for the user: " + username + ":  " + res.toString());
                         }
 
                         JSONParser parser = new JSONParser();
@@ -140,10 +140,10 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
                         Map<String, Object> map = new HashMap<String, Object>();
                         map.put(Constants.RESULT, result.get());
                         map.put(Constants.TYPING_PATTERN_RECEIVED, true);
-                        if (eCode.equals(1L) && advanced.equals(Constants.TRUE)) {
-                            map.put(Constants.SCORE, (Long) apiResponse.get(Constants.SCORE));
-                            map.put(Constants.CONFIDENCE, (Long) apiResponse.get(Constants.CONFIDENCE));
-                            map.put(Constants.COMPARED_PATTERNS, (Long) apiResponse.get(Constants.COMPARED_SAMPLES));
+                        if (eCode.equals(1L) && isAdvanceModeEnabled) {
+                            map.put(Constants.SCORE, apiResponse.get(Constants.SCORE));
+                            map.put(Constants.CONFIDENCE, apiResponse.get(Constants.CONFIDENCE));
+                            map.put(Constants.COMPARED_PATTERNS, apiResponse.get(Constants.COMPARED_SAMPLES));
                         }
                         asyncReturn.accept(authenticationContext, map, OUTCOME_SUCCESS);
 
