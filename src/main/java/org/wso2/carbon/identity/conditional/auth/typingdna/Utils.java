@@ -19,14 +19,10 @@
 
 package org.wso2.carbon.identity.conditional.auth.typingdna;
 
-import org.wso2.carbon.identity.application.authentication.framework.config.model.graph.JsGraphBuilder;
 import org.wso2.carbon.identity.application.authentication.framework.config.model.graph.js.JsAuthenticatedUser;
 import org.wso2.carbon.identity.application.authentication.framework.config.model.graph.js.JsAuthenticationContext;
 import org.wso2.carbon.identity.application.authentication.framework.config.model.graph.js.JsParameters;
 import org.wso2.carbon.identity.application.authentication.framework.config.model.graph.js.JsServletRequest;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * class that implements methods to extract User details and
@@ -34,11 +30,23 @@ import java.util.Map;
  */
 public class Utils {
 
+    /**
+     * Function that is used get the user from the context.
+     *
+     * @param context Context from authentication flow.
+     * @return User object respect to the authentication.
+     */
     public static JsAuthenticatedUser getUser(JsAuthenticationContext context) {
 
         return (JsAuthenticatedUser) context.getMember("currentKnownSubject");
     }
 
+    /**
+     * Function that is used to get user's typing patterns from the context.
+     *
+     * @param context Context from authentication flow.
+     * @return Recorded typing pattern - a string.
+     */
     public static String getTypingPattern(JsAuthenticationContext context) {
 
         JsServletRequest request = (JsServletRequest) context.getMember("request");
@@ -49,18 +57,5 @@ public class Utils {
         } else {
             return null;
         }
-    }
-
-    /**
-     * Unused method. Showing an Error page if admin configured credentials wrong.
-     */
-
-    public static void showError() {
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("status", "Unauthorized");
-        map.put("statusMsg", "Error in typingDNA Configuration");
-        JsGraphBuilder.sendErrorAsync("", map);
-
     }
 }

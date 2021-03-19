@@ -19,6 +19,7 @@
 package org.wso2.carbon.identity.conditional.auth.typingdna;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
@@ -29,8 +30,8 @@ import org.wso2.carbon.identity.application.authentication.framework.config.mode
 import org.wso2.carbon.identity.application.authentication.framework.config.model.graph.js.JsAuthenticatedUser;
 import org.wso2.carbon.identity.application.authentication.framework.config.model.graph.js.JsAuthenticationContext;
 import org.wso2.carbon.identity.conditional.auth.functions.common.utils.CommonUtils;
-import org.wso2.carbon.identity.event.IdentityEventException;
 import org.wso2.carbon.identity.conditional.auth.typingdna.exception.TypingDNAAuthenticatorException;
+import org.wso2.carbon.identity.event.IdentityEventException;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -59,6 +60,13 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
 
     private static final Log log = LogFactory.getLog(VerifyUserWithTypingDNAFunctionImpl.class);
 
+    /**
+     * Function to send verify request to typingDNA APIs.
+     *
+     * @param context       Context from authentication flow.
+     * @param eventHandlers
+     * @throws TypingDNAAuthenticatorException
+     */
     @Override
     public void verifyUserWithTypingDNA(JsAuthenticationContext context, Map<String, Object> eventHandlers) throws TypingDNAAuthenticatorException {
 
@@ -84,7 +92,8 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
 
             AsyncProcess asyncProcess = new AsyncProcess((authenticationContext, asyncReturn) -> {
                 try {
-                    if (!(typingPattern == null) && !typingPattern.equals(Constants.NULL) && Enabled.equals(Constants.TRUE)) {
+                    if (StringUtils.isNotBlank(typingPattern) && !StringUtils.equalsIgnoreCase(Constants.NULL, typingPattern)
+                            && Enabled.equals(Constants.TRUE)) {
 
                         String baseurl = buildURL(region, api, userID);
                         String data = "tp=" + URLEncoder.encode(typingPattern, "UTF-8");
@@ -117,7 +126,7 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
 
                         // Response from TypingDNA.
                         if (log.isDebugEnabled()) {
-                            log.debug("Response from TypingDNA: "+res.toString());
+                            log.debug("Response from TypingDNA for the user  " + username + ":  " + res.toString());
                         }
 
                         JSONParser parser = new JSONParser();
@@ -146,28 +155,36 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
 
                 } catch (UnknownHostException e) {
                     log.error(e.getMessage(), e);
-                    log.debug("Error while connecting to TypingDNA APIs");
+                    if (log.isDebugEnabled()) {
+                        log.debug("Error while connecting to TypingDNA APIs.");
+                    }
                     asyncReturn.accept(authenticationContext, Collections.emptyMap(), OUTCOME_FAIL);
 
                 } catch (IOException e) {
                     log.error(e.getMessage(), e);
-                    log.debug("Error in TypingDNA Configuration");
+                    if (log.isDebugEnabled()) {
+                        log.debug("Error in TypingDNA Configuration in " + tenantDomain + " tenant.");
+                    }
                     asyncReturn.accept(authenticationContext, Collections.emptyMap(), OUTCOME_FAIL);
 
                 } catch (ParseException e) {
                     log.error(e.getMessage(), e);
                     asyncReturn.accept(authenticationContext, Collections.emptyMap(), OUTCOME_FAIL);
                 }
-
             });
             JsGraphBuilder.addLongWaitProcess(asyncProcess, eventHandlers);
         } catch (IdentityEventException e) {
-            throw new TypingDNAAuthenticatorException("Can not retrieve configurations", e);
+            throw new TypingDNAAuthenticatorException("Can not retrieve configurations from tenant.", e);
         }
     }
 
     /**
-     * Method to create the request url with configured region,api and userID.
+     * This function builds the URL that is used to make API calls
+     *
+     * @param region TypingDNA API region - eu/us.
+     * @param api    API that going to be called - auto/verify.
+     * @param userID Unique identifier of a user in TypingDNA.
+     * @return URL that is used to call typingDNA API.
      */
     private String buildURL(String region, String api, String userID) {
 
@@ -175,7 +192,11 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
     }
 
     /**
-     * Method to create userID used in TypingDNA API call.
+     * This function generates a unique identifier for users in TypingDNA.
+     *
+     * @param username     Name of the user.
+     * @param tenantDomain Name of the tenant domain.
+     * @return Hashed value fully tenant qualified username.
      */
     private String getUserID(String username, String tenantDomain) {
 
