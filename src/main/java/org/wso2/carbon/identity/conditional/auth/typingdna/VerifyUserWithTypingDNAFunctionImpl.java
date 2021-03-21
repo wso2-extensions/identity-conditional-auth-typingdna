@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLException;
 
 import static org.wso2.carbon.identity.conditional.auth.functions.common.utils.Constants.OUTCOME_FAIL;
 import static org.wso2.carbon.identity.conditional.auth.functions.common.utils.Constants.OUTCOME_SUCCESS;
@@ -103,6 +104,8 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
                         URL url = new URL(baseurl);
                         HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
                         connection.setRequestMethod("POST");
+                        connection.setConnectTimeout(5000);
+                        connection.setReadTimeout(5000);
                         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                         connection.setRequestProperty("Authorization", "Basic " + Authorization);
 
@@ -157,6 +160,13 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
                     log.error(e.getMessage(), e);
                     if (log.isDebugEnabled()) {
                         log.debug("Error while connecting to TypingDNA APIs.");
+                    }
+                    asyncReturn.accept(authenticationContext, Collections.emptyMap(), OUTCOME_FAIL);
+
+                } catch (SSLException e) {
+                    log.error(e.getMessage(), e);
+                    if (log.isDebugEnabled()) {
+                        log.debug("Can not connect the user: " + username + " to TypingDNA.");
                     }
                     asyncReturn.accept(authenticationContext, Collections.emptyMap(), OUTCOME_FAIL);
 

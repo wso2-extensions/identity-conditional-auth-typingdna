@@ -40,6 +40,7 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLException;
 
 /**
  * Custom adaptive function implementation for Save
@@ -83,6 +84,8 @@ public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunct
                 URL url = new URL(baseurl);
                 HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
+                connection.setConnectTimeout(5000);
+                connection.setReadTimeout(5000);
                 connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 connection.setRequestProperty("Authorization", "Basic " + Authorization);
 
@@ -114,6 +117,12 @@ public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunct
             if (log.isDebugEnabled()) {
                 log.debug("Error while connecting to TypingDNA APIs.");
             }
+        } catch (SSLException e) {
+            log.error(e.getMessage(), e);
+            if (log.isDebugEnabled()) {
+                log.debug("Can not connect the user to TypingDNA.");
+            }
+
         } catch (IOException e) {
             log.error(e.getMessage(), e);
             if (log.isDebugEnabled()) {

@@ -42,7 +42,7 @@
     "        onSuccess: function (context) {",
     "            verifyUserWithTypingDNA(context, {",
     "                onSuccess: function(context,data){",
-    "                    if (data.isTypingPatternReceived && data.result){",
+    "                    if (data.isTypingPatternReceived && !data.result){",
     "                        executeStep(2);",
     "                    }",
     "                },onFail: function(context,data){",
