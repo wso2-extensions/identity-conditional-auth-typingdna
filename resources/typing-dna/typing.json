@@ -1,0 +1,58 @@
+{
+  "category": "user_based",
+  "name": "Typing-Biometric-Based",
+  "title": "Typing-Biometric-Based 2FA Template",
+  "summary": "Prompts 2FA to the users if their typing biometric differs",
+  "preRequisites": [
+    "configre typingDNA API Key, Secret in Resident IDP->Oher settings."
+  ],
+  "parametersDescription": {
+    "rolesToStepUp": "An array of roles of which users need to enforce 2FA."
+  },
+  "defaultStepsDescription": {
+    "Step 1": "Basic (Password) authenticator.",
+    "Step 2": "Either of TOTP or FIDO"
+  },
+  "authenticationSteps":2,
+  "defaultAuthenticators": {
+    "1": {
+      "local": [
+        "BasicAuthenticator"
+      ],
+      "federated": []
+    },
+    "2": {
+      "local": [
+        "totp",
+        "FIDOAuthenticator"
+      ],
+      "federated": []
+    }
+  },
+  "helpLink": "https://docs.wso2.com/display/IS570/Configuring+Role-Based+Adaptive+Authentication",
+  "code": [
+    "// This script will step up authentication if the user's typing behaviour",
+    "// mis-match with enrolled behaviour",
+    "",
+    "// you can use score(num 0-100), result(boolean), confidence(num 0-100), comparedPatterns in your logic to promote 2nd step",
+    "// here result is used at typingVerified.result", 
+    "",
+    "var onLoginRequest = function(context) {",
+    "    executeStep(1, {",
+    "        onSuccess: function (context) {",
+    "            verifyUserWithTypingDNA(context, {",
+    "                onSuccess: function(context,data){",
+    "                    if (data.isTypingPatternReceived && !data.result){",
+    "                        executeStep(2);",
+    "                    }",
+    "                },onFail: function(context,data){",
+    "                    executeStep(2);",
+    "                }",
+    "",            
+    "            });",
+    "        }",
+    "    });",
+    "};"
+
+  ]
+}
