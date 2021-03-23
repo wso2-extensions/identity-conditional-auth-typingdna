@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<Classloading xmlns="http://wso2.org/projects/as/classloading">
+
+    <!-- Parent-first or child-first. Default behaviour is child-first.-->
+    <ParentFirst>false</ParentFirst>
+
+    <Environments>CXF3,Carbon</Environments>
+</Classloading>
