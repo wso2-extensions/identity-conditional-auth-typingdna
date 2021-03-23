@@ -9,8 +9,8 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
-        <module>components/TypingDNAAPI</module>
-        <module>components/TypingDNAFunctions</module>
+        <module>components/org.wso2.carbon.identity.conditional.auth.typingdna.api</module>
+        <module>components/org.wso2.carbon.identity.conditional.auth.typingdna.functions</module>
     </modules>
     <dependencies>
         <dependency>
