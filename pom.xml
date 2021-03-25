@@ -12,7 +12,18 @@
         <module>components/org.wso2.carbon.identity.conditional.auth.typingdna.api</module>
         <module>components/org.wso2.carbon.identity.conditional.auth.typingdna.functions</module>
     </modules>
+    <dependencyManagement>
     <dependencies>
+        <dependency>
+            <groupId>org.wso2.carbon.identity.conditional.auth.typingdna</groupId>
+            <artifactId>identity-conditional-auth-typingdna-functions</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.identity.conditional.auth.typingdna</groupId>
+            <artifactId>identity-conditional-auth-typingdna-api</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>commons-lang.wso2</groupId>
             <artifactId>commons-lang</artifactId>
@@ -99,7 +110,88 @@
             <version>${javax.servlet.service-api.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-jaxrs</artifactId>
+            <version>${swagger-jaxrs.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-annotations</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.dataformat</groupId>
+                    <artifactId>jackson-dataformat-yaml</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.ws.rs</groupId>
+                    <artifactId>jsr311-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
+
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+            <version>${cxf-rt-frontend-jaxrs.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-service-description</artifactId>
+            <version>${cxf-rt-rs-service-description.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring-web.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring-context.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>${javax.ws.rs-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <version>${jackson-jaxrs-json-provider.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-annotations.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-rs-extension-search</artifactId>
+            <version>${cxf-rt-rs-extension-search.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
+        </dependency>
     </dependencies>
+    </dependencyManagement>
     <repositories>
         <repository>
             <id>wso2-nexus</id>
@@ -164,6 +256,7 @@
             </plugin>
         </plugins>
     </build>
+
     <properties>
         <carbon.kernel.version>4.6.1</carbon.kernel.version>
         <identity.governance.version>1.4.95</identity.governance.version>
@@ -176,5 +269,30 @@
         <carbon.identity.conditional.auth.functions.version>1.1.6</carbon.identity.conditional.auth.functions.version>
         <javax.servlet.service-api.version>2.5</javax.servlet.service-api.version>
         <carbon.logging.version>4.4.3</carbon.logging.version>
+        <carbon.kernel.package.import.version.range>[4.5.1, 5.0.0)</carbon.kernel.package.import.version.range>
+        <imp.pkg.version.javax.servlet>[2.5.0, 3.0.0)</imp.pkg.version.javax.servlet>
+        <carbon.identity.framework.imp.pkg.version.range>[5.14.97, 6.0.0)
+        </carbon.identity.framework.imp.pkg.version.range>
+        <osgi.framework.imp.pkg.version.range>[1.7.0, 2.0.0)</osgi.framework.imp.pkg.version.range>
+        <osgi.service.component.imp.pkg.version.range>[1.2.0, 2.0.0)</osgi.service.component.imp.pkg.version.range>
+        <carbon.identity.conditional.auth.functions.imp.pkg.version.range>[1.1.6, 2.0.0)
+        </carbon.identity.conditional.auth.functions.imp.pkg.version.range>
+        <carbon.user.api.imp.pkg.version.range>[1.0.1, 2.0.0)</carbon.user.api.imp.pkg.version.range>
+        <identity.governance.imp.pkg.version.range>[1.4.90, 2.0.0)</identity.governance.imp.pkg.version.range>
+        <apache.commons.lang.imp.pkg.version>2.6</apache.commons.lang.imp.pkg.version>
+        <apache.commons.logging.imp.pkg.version>1.2</apache.commons.logging.imp.pkg.version>
+        <apache.commons.collections.imp.pkg.version>3.2.2</apache.commons.collections.imp.pkg.version>
+        <json.simple.imp.pkg.version>1.1.1</json.simple.imp.pkg.version>
+        <jackson-databind.version>2.10.5</jackson-databind.version>
+        <cxf-rt-rs-extension-search.version>3.3.1</cxf-rt-rs-extension-search.version>
+        <swagger-annotations.version>1.5.20</swagger-annotations.version>
+        <jackson-jaxrs-json-provider.version>2.9.7</jackson-jaxrs-json-provider.version>
+        <javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
+        <spring-context.version>5.1.1.RELEASE</spring-context.version>
+        <spring-web.version>5.1.1.RELEASE</spring-web.version>
+        <cxf-rt-rs-service-description.version>3.3.1</cxf-rt-rs-service-description.version>
+        <cxf-rt-frontend-jaxrs.version>3.3.1</cxf-rt-frontend-jaxrs.version>
+        <swagger-jaxrs.version>1.6.2</swagger-jaxrs.version>
+        <identity.conditional.auth.functions.common.version>1.1.6</identity.conditional.auth.functions.common.version>
     </properties>
 </project>
