@@ -11,7 +11,7 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>identity-conditional-auth-typingdna-api</artifactId>
+    <artifactId>org.wso2.carbon.identity.conditional.auth.typingdna.api</artifactId>
     <name>Conditional Authentication - TypingDNA API</name>
     <packaging>war</packaging>
 
