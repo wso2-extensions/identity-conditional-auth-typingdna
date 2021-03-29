@@ -87,9 +87,9 @@ public class TypingDNAServiceImpl {
             }
             rd.close();
         } catch (MalformedInputException e) {
-            log.error(e);
+            log.error("Provided URL is invalid", e);
         } catch (IdentityEventException e) {
-            log.error(e);
+            throw new IOException("Can not retrieve configurations from tenant", e);
         }
 
     }
