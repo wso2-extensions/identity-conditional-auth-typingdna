@@ -1,102 +1,200 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2021, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~
+  ~ WSO2 Inc. licenses this file to you under the Apache License,
+  ~ Version 2.0 (the "License"); you may not use this file except
+  ~ in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.wso2</groupId>
+        <artifactId>wso2</artifactId>
+        <version>1.2</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.wso2.carbon.identity.conditional.auth.typingdna</groupId>
     <artifactId>identity-conditional-auth-typingdna</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>Conditional Authentication - TypingDNA Functions</name>
-    <packaging>bundle</packaging>
-    <dependencies>
-        <dependency>
-            <groupId>commons-lang.wso2</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>${commons-lang.wso2.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.logging</artifactId>
-            <version>${carbon.logging.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.core</artifactId>
-            <version>${carbon.kernel.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.user.core</artifactId>
-            <version>${carbon.kernel.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.identity.framework</groupId>
-            <artifactId>org.wso2.carbon.identity.application.authentication.framework</artifactId>
-            <version>${carbon.identity.framework.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.identity.framework</groupId>
-            <artifactId>org.wso2.carbon.identity.testutil</artifactId>
-            <version>${carbon.identity.framework.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.identity.framework</groupId>
-            <artifactId>org.wso2.carbon.identity.application.common</artifactId>
-            <version>${carbon.identity.framework.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.identity.framework</groupId>
-            <artifactId>org.wso2.carbon.identity.core</artifactId>
-            <version>${carbon.identity.framework.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon</groupId>
-            <artifactId>org.wso2.carbon.utils</artifactId>
-            <version>${carbon.kernel.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.minidev</groupId>
-            <artifactId>json-smart</artifactId>
-            <version>${json-smart.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.googlecode.json-simple.wso2</groupId>
-            <artifactId>json-simple</artifactId>
-            <version>${com.googlecode.json-simple.wso2.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>${com.google.code.gson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>${commons-codec.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.identity.governance</groupId>
-            <artifactId>org.wso2.carbon.identity.governance</artifactId>
-            <version>${identity.governance.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.identity.conditional.auth.functions</groupId>
-            <artifactId>org.wso2.carbon.identity.conditional.auth.functions.common</artifactId>
-            <version>${carbon.identity.conditional.auth.functions.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>${javax.servlet.service-api.version}</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
+    <packaging>pom</packaging>
+    <modules>
+        <module>components/org.wso2.carbon.identity.conditional.auth.typingdna.api</module>
+        <module>components/org.wso2.carbon.identity.conditional.auth.typingdna.functions</module>
+    </modules>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.wso2.carbon.identity.conditional.auth.typingdna</groupId>
+                <artifactId>identity-conditional-auth-typingdna-functions</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.identity.conditional.auth.typingdna</groupId>
+                <artifactId>identity-conditional-auth-typingdna-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-lang.wso2</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${commons-lang.wso2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.logging</artifactId>
+                <version>${carbon.logging.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.core</artifactId>
+                <version>${carbon.kernel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.user.core</artifactId>
+                <version>${carbon.kernel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.identity.framework</groupId>
+                <artifactId>org.wso2.carbon.identity.application.authentication.framework</artifactId>
+                <version>${carbon.identity.framework.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.identity.framework</groupId>
+                <artifactId>org.wso2.carbon.identity.testutil</artifactId>
+                <version>${carbon.identity.framework.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.identity.framework</groupId>
+                <artifactId>org.wso2.carbon.identity.application.common</artifactId>
+                <version>${carbon.identity.framework.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.identity.framework</groupId>
+                <artifactId>org.wso2.carbon.identity.core</artifactId>
+                <version>${carbon.identity.framework.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon</groupId>
+                <artifactId>org.wso2.carbon.utils</artifactId>
+                <version>${carbon.kernel.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.minidev</groupId>
+                <artifactId>json-smart</artifactId>
+                <version>${json-smart.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.googlecode.json-simple.wso2</groupId>
+                <artifactId>json-simple</artifactId>
+                <version>${com.googlecode.json-simple.wso2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${com.google.code.gson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons-codec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.identity.governance</groupId>
+                <artifactId>org.wso2.carbon.identity.governance</artifactId>
+                <version>${identity.governance.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.identity.conditional.auth.functions</groupId>
+                <artifactId>org.wso2.carbon.identity.conditional.auth.functions.common</artifactId>
+                <version>${carbon.identity.conditional.auth.functions.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>${javax.servlet.service-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-jaxrs</artifactId>
+                <version>${swagger-jaxrs.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-databind</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-annotations</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.core</groupId>
+                        <artifactId>jackson-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.fasterxml.jackson.dataformat</groupId>
+                        <artifactId>jackson-dataformat-yaml</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>javax.ws.rs</groupId>
+                        <artifactId>jsr311-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.google.guava</groupId>
+                        <artifactId>guava</artifactId>
+                    </exclusion>
+                </exclusions>
+
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+                <version>${cxf-rt-frontend-jaxrs.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-rs-service-description</artifactId>
+                <version>${cxf-rt-rs-service-description.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring-web.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.ws.rs</groupId>
+                <artifactId>javax.ws.rs-api</artifactId>
+                <version>${javax.ws.rs-api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson-annotations.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <repositories>
         <repository>
             <id>wso2-nexus</id>
@@ -156,73 +254,27 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.4.0</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <instructions>
-                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-                        <Bundle-Name>${project.artifactId}</Bundle-Name>
-                        <Private-Package>
-                            org.wso2.carbon.identity.conditional.auth.typingdna.internal
-                        </Private-Package>
-                        <Export-Package>
-                            !org.wso2.carbon.identity.conditional.auth.typingdna.internal,
-                            org.wso2.carbon.identity.conditional.auth.typingdna.*
-                        </Export-Package>
-                        <Import-Package>
-                            org.wso2.carbon.identity.application.common.*;version="${carbon.identity.framework.version}",
-                            org.wso2.carbon.user.api.*;version="${carbon.user.api.imp.pkg.version.range}",
-                            org.wso2.carbon.identity.conditional.auth.functions.user.*,
-                            org.wso2.carbon.identity.conditional.auth.functions.common.*,
-                            org.apache.commons.lang;version="${apache.commons.lang.imp.pkg.version}",
-                            org.apache.commons.logging;version="${apache.commons.logging.imp.pkg.version}",
-                            org.osgi.service.component;version="${osgi.service.component.imp.pkg.version.range}",
-                            org.osgi.service.component.annotations;version="${osgi.service.component.imp.pkg.version.range}",
-                            org.osgi.framework;version="${osgi.framework.imp.pkg.version.range}",
-                            org.wso2.carbon,
-                            org.wso2.carbon.core.util,
-                            org.wso2.carbon.identity.core.util,
-                            org.wso2.carbon.identity.application.authentication.framework;
-                            version="${carbon.identity.framework.imp.pkg.version.range}",
-                            org.wso2.carbon.identity.application.authentication.framework.util;
-                            version="${carbon.identity.framework.imp.pkg.version.range}",
-                            org.wso2.carbon.identity.application.authentication.framework.exception;
-                            version="${carbon.identity.framework.imp.pkg.version.range}",
-                            org.wso2.carbon.identity.application.authentication.framework.model;
-                            version="${carbon.identity.framework.imp.pkg.version.range}",
-                            org.wso2.carbon.identity.application.authentication.framework.config.model.graph.js;
-                            version="${carbon.identity.framework.imp.pkg.version.range}",
-                            org.wso2.carbon.identity.application.authentication.framework.config.model.graph;
-                            version="${carbon.identity.framework.imp.pkg.version.range}",
-                            org.wso2.carbon.identity.application.authentication.framework.config.model;
-                            version="${carbon.identity.framework.imp.pkg.version.range}",
-                            org.wso2.carbon.identity.application.authentication.framework.context;
-                            version="${carbon.identity.framework.imp.pkg.version.range}",
-                            org.wso2.carbon.identity.application.common.model,
-                            org.wso2.carbon.identity.governance,
-                            org.wso2.carbon.identity.governance.common,
-                            org.wso2.carbon.identity.event,
-                            org.apache.commons.collections;version="${apache.commons.collections.imp.pkg.version}",
-                            org.wso2.carbon.registry.core.service,
-                            org.wso2.carbon.user.core;version="${carbon.kernel.package.import.version.range}",
-                            org.wso2.carbon.user.core.claim;version="${carbon.kernel.package.import.version.range}",
-                            org.wso2.carbon.user.core.service;version="${carbon.kernel.package.import.version.range}",
-                            org.json.simple,
-                            org.json.simple.parser,
-                            javax.servlet.http;version="${imp.pkg.version.javax.servlet}"
-                        </Import-Package>
-                    </instructions>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
+
     <properties>
+        <apache.commons.lang.imp.pkg.version>2.6</apache.commons.lang.imp.pkg.version>
+        <apache.commons.logging.imp.pkg.version>1.2</apache.commons.logging.imp.pkg.version>
+        <apache.commons.collections.imp.pkg.version>3.2.2</apache.commons.collections.imp.pkg.version>
+        <json.simple.imp.pkg.version>1.1.1</json.simple.imp.pkg.version>
+        <carbon.kernel.package.import.version.range>[4.5.1, 5.0.0)</carbon.kernel.package.import.version.range>
+        <imp.pkg.version.javax.servlet>[2.5.0, 3.0.0)</imp.pkg.version.javax.servlet>
+        <carbon.identity.framework.imp.pkg.version.range>[5.14.97, 6.0.0)
+        </carbon.identity.framework.imp.pkg.version.range>
+        <osgi.framework.imp.pkg.version.range>[1.7.0, 2.0.0)</osgi.framework.imp.pkg.version.range>
+        <osgi.service.component.imp.pkg.version.range>[1.2.0, 2.0.0)</osgi.service.component.imp.pkg.version.range>
+        <carbon.identity.conditional.auth.functions.imp.pkg.version.range>[1.1.6, 2.0.0)
+        </carbon.identity.conditional.auth.functions.imp.pkg.version.range>
+        <carbon.user.api.imp.pkg.version.range>[1.0.1, 2.0.0)</carbon.user.api.imp.pkg.version.range>
+        <identity.governance.imp.pkg.version.range>[1.4.90, 2.0.0)</identity.governance.imp.pkg.version.range>
         <carbon.kernel.version>4.6.1</carbon.kernel.version>
         <identity.governance.version>1.4.95</identity.governance.version>
         <com.googlecode.json-simple.wso2.version>1.1.wso2v1</com.googlecode.json-simple.wso2.version>
@@ -234,19 +286,16 @@
         <carbon.identity.conditional.auth.functions.version>1.1.6</carbon.identity.conditional.auth.functions.version>
         <javax.servlet.service-api.version>2.5</javax.servlet.service-api.version>
         <carbon.logging.version>4.4.3</carbon.logging.version>
-        <carbon.kernel.package.import.version.range>[4.5.1, 5.0.0)</carbon.kernel.package.import.version.range>
-        <imp.pkg.version.javax.servlet>[2.5.0, 3.0.0)</imp.pkg.version.javax.servlet>
-        <carbon.identity.framework.imp.pkg.version.range>[5.14.97, 6.0.0)
-        </carbon.identity.framework.imp.pkg.version.range>
-        <osgi.framework.imp.pkg.version.range>[1.7.0, 2.0.0)</osgi.framework.imp.pkg.version.range>
-        <osgi.service.component.imp.pkg.version.range>[1.2.0, 2.0.0)</osgi.service.component.imp.pkg.version.range>
-        <carbon.identity.conditional.auth.functions.imp.pkg.version.range>[1.1.6, 2.0.0)
-        </carbon.identity.conditional.auth.functions.imp.pkg.version.range>
-        <carbon.user.api.imp.pkg.version.range>[1.0.1, 2.0.0)</carbon.user.api.imp.pkg.version.range>
-        <identity.governance.imp.pkg.version.range>[1.4.90, 2.0.0)</identity.governance.imp.pkg.version.range>
-        <apache.commons.lang.imp.pkg.version>2.6</apache.commons.lang.imp.pkg.version>
-        <apache.commons.logging.imp.pkg.version>1.2</apache.commons.logging.imp.pkg.version>
-        <apache.commons.collections.imp.pkg.version>3.2.2</apache.commons.collections.imp.pkg.version>
-        <json.simple.imp.pkg.version>1.1.1</json.simple.imp.pkg.version>
+        <jackson-databind.version>2.10.5</jackson-databind.version>
+        <cxf-rt-rs-extension-search.version>3.3.7</cxf-rt-rs-extension-search.version>
+        <swagger-annotations.version>1.5.20</swagger-annotations.version>
+        <jackson-jaxrs-json-provider.version>2.9.7</jackson-jaxrs-json-provider.version>
+        <javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
+        <spring-web.version>4.3.29.RELEASE</spring-web.version>
+        <cxf-rt-rs-service-description.version>3.3.7</cxf-rt-rs-service-description.version>
+        <cxf-rt-frontend-jaxrs.version>3.3.7</cxf-rt-frontend-jaxrs.version>
+        <swagger-jaxrs.version>1.6.2</swagger-jaxrs.version>
+        <identity.conditional.auth.functions.common.version>1.1.6</identity.conditional.auth.functions.common.version>
+        <jackson-annotations.version>2.9.7</jackson-annotations.version>
     </properties>
 </project>

@@ -151,7 +151,7 @@ public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunct
      *
      * @param username     Name of the user.
      * @param tenantDomain Name of the tenant domain.
-     * @return Hashed value fully tenant qualified username.
+     * @return Hashed value of tenant qualified username.
      */
     private String getUserID(String username, String tenantDomain) {
 

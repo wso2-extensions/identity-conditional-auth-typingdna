@@ -150,6 +150,12 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
                         }
                         asyncReturn.accept(authenticationContext, map, OUTCOME_SUCCESS);
 
+                    } else if (StringUtils.equalsIgnoreCase(Constants.NULL, typingPattern)) {
+                        if (log.isDebugEnabled()) {
+                            log.debug("User: " + username + " is prompted to second step due to using password manager.");
+                        }
+                        asyncReturn.accept(authenticationContext, Collections.emptyMap(), OUTCOME_FAIL);
+
                     } else {
                         Map<String, Object> map = new HashMap<String, Object>();
                         map.put(Constants.TYPING_PATTERN_RECEIVED, false);
@@ -206,7 +212,7 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
      *
      * @param username     Name of the user.
      * @param tenantDomain Name of the tenant domain.
-     * @return Hashed value fully tenant qualified username.
+     * @return Hashed value of tenant qualified username.
      */
     private String getUserID(String username, String tenantDomain) {
 

@@ -1,0 +1,132 @@
+swagger: '2.0'
+info:
+  description: >
+    This is the RESTful API for a user to delete his/her typing patterns in TypingDNA & to get
+    whether typingDNA is enabled for the tenant in WSO2 Identity Server.
+  version: v1.0
+  title: WSO2 Identity Server - TypingDNA API Definition
+  contact:
+    name: WSO2
+    url: 'http://wso2.com/products/identity-server/'
+    email: iam-dev@wso2.org
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+schemes:
+  - https
+security:
+  - OAuth2: [ ]
+  - BasicAuth: [ ]
+tags:
+  - name: me
+    description: Operations for the authenticated user.
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /server/typingdnaConfig:
+    get:
+      tags:
+        - server
+      summary: Retrieve whether typingdna authentication enabled by admin
+      description: |
+        This API is used to retrieve whether the typingdna authentication enabled by admin or not.
+        <b>Permission required:</b>
+            * none
+        <b>Scope required:</b>
+            * internal_login
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/TypingdnaEnableResponse'
+        401:
+          description: Unauthorized
+        403:
+          description: Resource Forbidden
+        500:
+          description: Server Error
+          schema:
+            $ref: '#/definitions/Error'
+  /me/typingpatterns:
+    delete:
+      tags:
+        - me
+      summary: Clears typing patterns of the authenticated user that are saved in TypingDNA.
+      description: >
+        This API is used to delete the user's typing patterns in TypingDNA.
+        user. <b>Permission required:</b><br> * none<br> <b>Scope
+        required:</b><br> * internal_login
+      responses:
+        '200':
+          description: Credentials deleted successfully
+          schema:
+            $ref: '#/definitions/TypingdnaResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Resource Forbidden
+        '500':
+          description: Server Error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Error:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: string
+        example: some_error_code
+      message:
+        type: string
+        example: Some Error Message
+      description:
+        type: string
+        example: Some Error Description
+      traceId:
+        type: string
+        example: Some Correlation for Error Instance
+  UserRequest:
+    type: object
+    required:
+      - action
+    properties:
+      action:
+        type: string
+        example: 'DELETE'
+        enum:
+          - DELETE
+      verificationCode:
+        type: integer
+        example: Verification code that need to be verified by the server
+  TypingdnaResponse:
+    type: object
+    properties:
+      Success:
+        type: boolean
+        description: Whether typingpatterns deleted successfully or not
+      Enabled:
+        type: boolean
+        description: Whether typingpatterns
+  TypingdnaEnableResponse:
+    type: object
+    properties:
+      Enabled:
+        type: boolean
+        description: Whether typingdna authentication enabled or not
+
+securityDefinitions:
+  BasicAuth:
+    type: basic
+  OAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: https://localhost:9443/oauth2/authorize
+    tokenUrl: https://localhost:9443/oauth2/token
+
+host: localhost:9443
+basePath: t/{tenant-domain}/api/typingdna/v1.0
