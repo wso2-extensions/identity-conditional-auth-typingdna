@@ -1,13 +1,18 @@
 {
   "category": "user_based",
-  "name": "Typing-Biometric-Based",
-  "title": "Typing-Biometric-Based 2FA Template",
+  "name": "TypingDNA-Based",
+  "title": "TypingDNA-Typing-Biometric-Based 2FA Template",
   "summary": "Prompts 2FA to the users if their typing biometric differs",
   "preRequisites": [
-    "configre typingDNA API Key, Secret in Resident IDP->Oher settings."
+    "configure typingDNA API Key, Secret in Resident IDP->Other settings."
   ],
   "parametersDescription": {
-    "rolesToStepUp": "An array of roles of which users need to enforce 2FA."
+    "userVerified": "A boolean indicates whether user verified or not.",
+    "data.result": "A boolean indicates whether a user's typing pattern is matched with previously enrolled typing patterns.",
+    "data.score": "A number between 0 - 100 indicates how well the typing pattern matches with previously enrolled patterns.",
+    "data.confidence": "A number between 0-100 indicates how much confidence TypingDNA has in their result. Can be the measure of accuracy.",
+    "data.comparedPatterns": "A number between 1-20 indicates how many previously enrolled patterns are available to verify current typing pattern.",
+    "data.isTypingPatternsReceived": "A boolean indicates whether the typing pattern was received from the user."
   },
   "defaultStepsDescription": {
     "Step 1": "Basic (Password) authenticator.",
@@ -34,7 +39,7 @@
     "// This script will step up authentication if the user's typing behaviour",
     "// mis-match with enrolled behaviour",
     "",
-    "// you can use score(num 0-100), result(boolean), confidence(num 0-100), comparedPatterns in your logic to promote 2nd step",
+    "// You can use score(num 0-100), result(boolean), confidence(num 0-100), comparedPatterns in your logic to promote 2nd step",
     "// here result is used at typingVerified.result", 
     "",
     "var onLoginRequest = function(context) {",
@@ -42,7 +47,11 @@
     "        onSuccess: function (context) {",
     "            verifyUserWithTypingDNA(context, {",
     "                onSuccess: function(context,data){",
-    "                    if (data.isTypingPatternReceived && !data.result){",
+    "                    // Change the definition here if you want",
+    "                    var userVerified = data.result;",
+    "",
+    "                    // data.isTypingPatternReceived indicates whether a typing patterns is received from login portal",
+    "                    if (data.isTypingPatternReceived && !userVerified){",
     "                        executeStep(2);",
     "                    }",
     "                },onFail: function(context,data){",

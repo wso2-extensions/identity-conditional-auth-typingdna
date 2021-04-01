@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   description: >
-    This is the RESTful API for a user to delete his typing patterns in TypingDNA & to get
+    This is the RESTful API for a user to delete his/her typing patterns in TypingDNA & to get
     whether typingDNA is enabled for the tenant in WSO2 Identity Server.
   version: v1.0
   title: WSO2 Identity Server - TypingDNA API Definition
