@@ -129,4 +129,4 @@ securityDefinitions:
     tokenUrl: https://localhost:9443/oauth2/token
 
 host: localhost:9443
-basePath: /api/typingdna/v1.0
+basePath: t/{tenant-domain}/api/typingdna/v1.0
