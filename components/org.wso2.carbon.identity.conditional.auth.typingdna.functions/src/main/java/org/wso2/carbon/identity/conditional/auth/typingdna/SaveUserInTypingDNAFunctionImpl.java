@@ -77,7 +77,8 @@ public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunct
             if (StringUtils.isNotBlank(typingPattern) && !StringUtils.equalsIgnoreCase(Constants.NULL, typingPattern)
                     && isTypingDNAEnabled && isAdvanceModeEnabled) {
                 String baseurl = buildURL(region, userID);
-                String data = "tp=" + URLEncoder.encode(typingPattern, "UTF-8");
+                String data = "tp=" + URLEncoder.encode(typingPattern, "UTF-8") + "&custom_field=" + URLEncoder
+                        .encode(Constants.CUSTOM_FIELD_VALUE, "UTF-8");
                 String Authorization = Base64.getEncoder().encodeToString((APIKey + ":" + APISecret).getBytes(StandardCharsets.UTF_8));
 
                 // Setting up URL connection.

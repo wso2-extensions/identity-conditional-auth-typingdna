@@ -34,4 +34,6 @@ public abstract class Constants {
     public static final String NULL = "null";
     public static final String TYPING_PATTERN_RECEIVED = "isTypingPatternReceived";
     public static final String COMPARED_PATTERNS = "comparedPatterns";
+    // Base64Encode(wso2_typingdna) will be used as a custom parameter to identify WSO2 integration.
+    public static final String CUSTOM_FIELD_VALUE = "d3NvMl90eXBpbmdkbmE=";
 }
