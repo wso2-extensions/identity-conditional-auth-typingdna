@@ -75,7 +75,7 @@
                             <directory>src/main/webapp</directory>
                         </resource>
                     </webResources>
-                    <warName>api#typingdna#v1.0</warName>
+                    <warName>api#identity#typingdna#v1.0</warName>
                 </configuration>
             </plugin>
         </plugins>
