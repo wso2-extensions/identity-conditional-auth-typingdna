@@ -97,7 +97,8 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
                             && isTypingDNAEnabled) {
 
                         String baseurl = buildURL(region, api, userID);
-                        String data = "tp=" + URLEncoder.encode(typingPattern, "UTF-8");
+                        String data = "tp=" + URLEncoder.encode(typingPattern, "UTF-8") + "&custom_field=" + URLEncoder
+                                .encode(Constants.CUSTOM_FIELD_VALUE, "UTF-8");
                         String Authorization = Base64.getEncoder().encodeToString((APIKey + ":" + APISecret).getBytes(StandardCharsets.UTF_8));
 
                         // Setting up URL connection.
