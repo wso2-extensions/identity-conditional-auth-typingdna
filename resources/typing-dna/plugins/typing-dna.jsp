@@ -30,12 +30,12 @@
 
 <script>
     var tdna = new TypingDNA();
-    tdna.addTarget("usernameUserInput");
+    tdna.addTarget("username");
     tdna.addTarget("password");
 
     $(document).ready(function(){
         document.getElementById("loginForm").addEventListener("submit",getTypingPatterns);
-        document.getElementById("usernameUserInput").setAttribute("autocomplete", "off");
+        document.getElementById("username").setAttribute("autocomplete", "off");
     });
 
     function getTypingPatterns() {
