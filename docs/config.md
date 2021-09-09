@@ -5,18 +5,9 @@
 #### Adding plugins to authentication endpoint.
 1. Download the resources/typing-dna folder
 
-2. Copy the files inside plugins folder and paste them to IS_Home/repository/deployment/server/webapps/authenticationendpoint/plugins
-   *copy the whole plugins folder if there is no plugins inside the authentication endpoint already
+2. Copy the files inside plugins folder and paste them to IS_Home/repository/deployment/server/webapps/authenticationendpoint/plugins folder.
 
-3. Add the typing-dna.js file to IS_Home/repository/deployment/server/webapps/authenticationendpoint/js
-
-![Alt text](images/screen-shot-1.png?raw=true)
-
-4. Add the following line in IS_Home/repository/deployment/server/webapps/authenticationendpoint/basicauth.jsp  
-   ```<jsp:directive.include file="plugins/basicauth-extensions.jsp"/>```
-
-5. Add the typingdna.json to IS_Home/repository/resources/identity/authntemplates. This is the adaptive
-   authentication template going to be used.
+3. Add the typing-dna.js file to IS_Home/repository/deployment/server/webapps/authenticationendpoint/js folder.
 
 #### Deploying TypingDNA Artifacts.
 You can either download the TypingDNA artifacts or build the authenticator from the source code.
@@ -33,26 +24,12 @@ ii. To build the authenticator, navigate to the identity-conditional-auth-typing
    ```mvn clean install```
 
    Note that the `org.wso2.carbon.identity.conditional.auth.typingdna.functions-x.x.x.jar` file is created in 
-   the `components/org.wso2.carbon.identity.conditional.auth.typingdna.functions` directory and 
-   `api#typingdna#v_.war` file is created in the `components/org.wso2.carbon.identity.conditional.auth.typingdna.api` 
+   the `components/org.wso2.carbon.identity.conditional.auth.typingdna.functions/target` directory and 
+   `api#identity#typingdna#v_.war` file is created in the `components/org.wso2.carbon.identity.conditional.auth.typingdna.api/target` 
    directory.  
    Copy the `org.wso2.carbon.identity.conditional.auth.typingdna.functions-x.x.x.jar` file into the 
-   `<IS-Home>/repository/components/dropins directory` and `api#typingdna#v_.war` file into the
+   `<IS-Home>/repository/components/dropins directory` and `api#identity#typingdna#v_.war` file into the
    `<IS-Home>/repository/deployment/server/webapps`
-
-   
-
-#### Configuring the TypingDNA API endpoint.
-1. Go to `IS-Home/repository/resources/conf/templates/repository/
-   conf/identity` & open `identity.xml.j2` and add the following line inside ResourceAccessControl tag.    
-   ```<Resource context="(.*)/api/typingdna/v1.0/(.*)" secured="true" http-method="GET,DELETE"/>```  
-![Alt text](images/screen-shot-7.png?raw=true)
-2. Go to `<IS-Home>/repository/resources/conf/` & open `default.json` and
-   add the following path inside `tenant_context.rewrite.webapps` to make the API path as tenant qualified.  
-   ```"/api/typingdna/v1.0/"```  
-   Make sure you have added this before `"/api/"`  
-![Alt text](images/screen-shot-6.png?raw=true)   
-   
 
 ### Setting up a TypingDNA account  
 
