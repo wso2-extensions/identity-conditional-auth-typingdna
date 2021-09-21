@@ -77,21 +77,26 @@ public class TypingDNAServiceImpl {
             connection.setUseCaches(false);
             connection.setDoOutput(true);
 
-            InputStream is = connection.getInputStream();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-            StringBuilder res = new StringBuilder();
-            String line;
-            while ((line = rd.readLine()) != null) {
-                res.append(line);
-                res.append('\r');
+            try (InputStream is = connection.getInputStream()) {
+                try (BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = rd.readLine()) != null) {
+                        response.append(line);
+                        response.append('\r');
+                    }
+                    // Response from TypingDNA.
+                    if (log.isDebugEnabled()) {
+                        log.debug("Response from TypingDNA for the user: " + username + ": " + response);
+                    }
+                }
             }
-            rd.close();
+
         } catch (MalformedInputException e) {
             log.error("Provided URL is invalid", e);
         } catch (IdentityEventException e) {
             throw new IOException("Can not retrieve configurations from tenant", e);
         }
-
     }
 
     /**
