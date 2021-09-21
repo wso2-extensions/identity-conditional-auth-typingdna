@@ -209,6 +209,11 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>${findbugs-maven-plugin.version}</version>
+            </plugin>
         </plugins>
     </build>
 
@@ -247,5 +252,6 @@
         <swagger-jaxrs.version>1.6.2</swagger-jaxrs.version>
         <identity.conditional.auth.functions.common.version>1.1.6</identity.conditional.auth.functions.common.version>
         <jackson-annotations.version>2.9.7</jackson-annotations.version>
+        <findbugs-maven-plugin.version>3.0.5</findbugs-maven-plugin.version>
     </properties>
 </project>
