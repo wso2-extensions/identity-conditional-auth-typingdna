@@ -113,43 +113,44 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
                         connection.setUseCaches(false);
                         connection.setDoOutput(true);
 
-                        DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-                        wr.writeBytes(data);
-                        wr.close();
-
-                        // Reading the response.
-                        InputStream is = connection.getInputStream();
-                        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                        StringBuilder res = new StringBuilder();
-                        String line;
-                        while ((line = rd.readLine()) != null) {
-                            res.append(line);
-                            res.append('\r');
+                        try (DataOutputStream wr = new DataOutputStream(connection.getOutputStream())) {
+                            wr.writeBytes(data);
                         }
-                        rd.close();
-
+                        // Reading the response.
+                        StringBuilder response;
+                        try (InputStream is = connection.getInputStream()) {
+                            try (BufferedReader rd = new BufferedReader(
+                                    new InputStreamReader(is, StandardCharsets.UTF_8))) {
+                                response = new StringBuilder();
+                                String line;
+                                while ((line = rd.readLine()) != null) {
+                                    response.append(line);
+                                    response.append('\r');
+                                }
+                            }
+                        }
                         // Response from TypingDNA.
                         if (log.isDebugEnabled()) {
-                            log.debug("Response from TypingDNA for the user: " + username + ":  " + res.toString());
+                            log.debug("Response from TypingDNA for the user: " + username + ":  " + response);
                         }
 
                         JSONParser parser = new JSONParser();
-                        JSONObject apiResponse = (JSONObject) parser.parse(res.toString());
+                        JSONObject apiResponse = (JSONObject) parser.parse(response.toString());
                         Long eCode = (Long) apiResponse.get(Constants.MESSAGE_CODE);
 
                         if (eCode.equals(1L)) {
                             Long typingResult = (Long) apiResponse.get(Constants.RESULT);
                             result.set(typingResult.equals(1L));
                         }
-                        Map<String, Object> map = new HashMap<String, Object>();
-                        map.put(Constants.RESULT, result.get());
-                        map.put(Constants.TYPING_PATTERN_RECEIVED, true);
+                        Map<String, Object> params = new HashMap<>();
+                        params.put(Constants.RESULT, result.get());
+                        params.put(Constants.TYPING_PATTERN_RECEIVED, true);
                         if (eCode.equals(1L) && isAdvanceModeEnabled) {
-                            map.put(Constants.SCORE, apiResponse.get(Constants.SCORE));
-                            map.put(Constants.CONFIDENCE, apiResponse.get(Constants.CONFIDENCE));
-                            map.put(Constants.COMPARED_PATTERNS, apiResponse.get(Constants.COMPARED_SAMPLES));
+                            params.put(Constants.SCORE, apiResponse.get(Constants.SCORE));
+                            params.put(Constants.CONFIDENCE, apiResponse.get(Constants.CONFIDENCE));
+                            params.put(Constants.COMPARED_PATTERNS, apiResponse.get(Constants.COMPARED_SAMPLES));
                         }
-                        asyncReturn.accept(authenticationContext, map, OUTCOME_SUCCESS);
+                        asyncReturn.accept(authenticationContext, params, OUTCOME_SUCCESS);
 
                     } else if (StringUtils.equalsIgnoreCase(Constants.NULL, typingPattern)) {
                         if (log.isDebugEnabled()) {
@@ -158,9 +159,9 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
                         asyncReturn.accept(authenticationContext, Collections.emptyMap(), OUTCOME_FAIL);
 
                     } else {
-                        Map<String, Object> map = new HashMap<String, Object>();
-                        map.put(Constants.TYPING_PATTERN_RECEIVED, false);
-                        asyncReturn.accept(authenticationContext, map, OUTCOME_SUCCESS);
+                        Map<String, Object> params = new HashMap<>();
+                        params.put(Constants.TYPING_PATTERN_RECEIVED, false);
+                        asyncReturn.accept(authenticationContext, params, OUTCOME_SUCCESS);
                     }
 
                 } catch (UnknownHostException e) {

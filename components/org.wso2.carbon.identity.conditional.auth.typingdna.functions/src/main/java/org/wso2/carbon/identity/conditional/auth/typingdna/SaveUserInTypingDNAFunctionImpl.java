@@ -93,25 +93,24 @@ public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunct
                 connection.setUseCaches(false);
                 connection.setDoOutput(true);
 
-                DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-                wr.writeBytes(data);
-                wr.close();
-
-                InputStream is = connection.getInputStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-                StringBuilder res = new StringBuilder();
-                String line;
-                while ((line = rd.readLine()) != null) {
-                    res.append(line);
-                    res.append('\r');
+                try (DataOutputStream wr = new DataOutputStream(connection.getOutputStream())) {
+                    wr.writeBytes(data);
                 }
-                rd.close();
-
-                // Response from TypingDNA.
-                if (log.isDebugEnabled()) {
-                    log.debug("Response from TypingDNA: " + res.toString());
+                try (InputStream is = connection.getInputStream()) {
+                    StringBuilder response;
+                    try (BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+                        response = new StringBuilder();
+                        String line;
+                        while ((line = rd.readLine()) != null) {
+                            response.append(line);
+                            response.append('\r');
+                        }
+                        // Response from TypingDNA.
+                        if (log.isDebugEnabled()) {
+                            log.debug("Response from TypingDNA: " + response);
+                        }
+                    }
                 }
-
             }
         } catch (UnknownHostException e) {
             log.error(e.getMessage(), e);
