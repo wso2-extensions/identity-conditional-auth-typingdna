@@ -2,20 +2,13 @@
 
 To use TypingDNA with WSO2 Identity Server, first you need to configure the authenticator with WSO2 Identity Server. The following topics provide instructions on how to configure the TypingDNA with WSO2 Identity Server as a risk-based authentication (RBA) option:
 
-* [Installing the connector & extensions](#installing-the-connector--extensions)
+* [Enable TypingDNA in the WSO2 Identity Server](#enable-typingdna-in-the-wso2-identity-server)
+* [Deploying TypingDNA Artifacts](#deploying-typingdna-artifacts)
 * [Setting up the TypingDNA account](#setting-up-the-typingdna-account)
 * [Configuring the TypingDNA in WSO2 Identity Server](#configuring-the-typingdna-in-wso2-identity-server)
 * [Configuring the application to use TypingDNA](#configuring-the-application-to-use-typingdna)
 
-### Installing the connector & extensions  
-
-#### Adding plugins to authentication endpoint.
-
-1. Download the TypingDNA connector and other required artifacts from the [WSO2 store](https://store.wso2.com/store/assets/isconnector/list).
-3. Copy the files inside plugins folder and paste them to `<IS-Home>/repository/deployment/server/webapps/authenticationendpoint/plugins` directory.
-4. Copy the `typing-dna.js` file to `<IS-Home>/repository/deployment/server/webapps/authenticationendpoint/js` directory.
-
-#### Enable TypingDNA in the WSO2 Identity Server.
+### Enable TypingDNA in the WSO2 Identity Server
 
 1. Stop WSO2 Identity Server if it is already running.
 2. Add the below configuration in the `<IS-Home>/repository/conf/deployment.toml` file.
@@ -25,7 +18,7 @@ To use TypingDNA with WSO2 Identity Server, first you need to configure the auth
     enabled_features=["security.loginVerifyData.typingDNA"]
    ```
 
-#### Deploying TypingDNA Artifacts.
+### Deploying TypingDNA Artifacts
 
 You can either download the TypingDNA artifacts or build the authenticator from the source code.
 
@@ -69,9 +62,8 @@ Skip this part if you are using developer/free TypingDNA account.
 
 ### Configuring the TypingDNA in WSO2 Identity Server
 
-1. Login to console.
-2. Go to `Manage -> configurations -> other settings`
-3. Select TypingDNA Configuration.
+1. Start the WSO2 Identity Server and log in to the management console using admin credentials.
+2. Go to `Identity Providers -> Resident -> Other settings -> TypingDNA Configuration`
 4. Enable TypingDNA & configure API Key, Secret. You can get the Key & Secret from TypingDNA
    [dashboard](https://www.typingdna.com/clients/).
    Refer [this doc](files/Sign%20In.pdf) for detailed information.
@@ -83,9 +75,41 @@ Skip this part if you are using developer/free TypingDNA account.
 
 ### Configuring the application to use TypingDNA
 
-1. Go to `Develop -> Application` & Select the sample application you have configured.
-2. Go to `Sign-in Method`.
-3. Add `Typing-Biometric-Based` script in `templates->user`.
-   Refer [this doc](files/adaptive-script-description.md) to get detailed information about TypingDNA adaptive template.
+1. Go to `Service Providers -> List` & Select the sample application you have configured and click `Edit`.
+2. Expand `Local and Outbound Authentication Configuration` and click `Advanced Configuration`.
+3. Configure the required authentication for two steps and use the TypingDNA adaptive script as below.
 
+```
+// This script will step up 2FA authentication if the user's typing behaviour mis-match with enrolled behaviour.
+
+// You can use score(num 0-100), result(boolean), confidence(num 0-100), comparedPatterns in your logic to promote 2nd step
+// here result is used at typingVerified.result
+
+var onLoginRequest = function(context) {
+    executeStep(1, {
+        onSuccess: function (context) {
+            verifyUserWithTypingDNA(context, {
+                onSuccess: function(context,data){
+                    // Change the definition here if you want.
+                    var userVerified = data.result;
+
+                    // data.isTypingPatternReceived indicates whether a typing patterns is received from login portal.
+                    if (data.isTypingPatternReceived && !userVerified){
+                        executeStep(2);
+                    }
+                },onFail: function(context,data){
+                    executeStep(2);
+                }
+
+            });
+        }
+    });
+};
+
+// End of TypingDNA-Based.......
+```
 ![Alt_text](images/screen-shot-4.png?raw=true)
+![Alt_text](images/screen-shot-6.png?raw=true)
+![Alt_text](images/screen-shot-7.png?raw=true)
+
+ Refer [this doc](files/adaptive-script-description.md) to get detailed information about TypingDNA adaptive template.
