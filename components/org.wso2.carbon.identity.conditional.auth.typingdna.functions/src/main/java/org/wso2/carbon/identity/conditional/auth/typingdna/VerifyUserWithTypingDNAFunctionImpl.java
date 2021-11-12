@@ -65,7 +65,7 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
      * Function to send verify request to typingDNA APIs.
      *
      * @param context       Context from authentication flow.
-     * @param eventHandlers Defines the flow of process in onSuccess & onFail.
+     * @param eventHandlers Defines the flow of process in onSuccess and onFail.
      * @throws TypingDNAAuthenticatorException When unable to retrieve tenant configurations.
      */
     @Override

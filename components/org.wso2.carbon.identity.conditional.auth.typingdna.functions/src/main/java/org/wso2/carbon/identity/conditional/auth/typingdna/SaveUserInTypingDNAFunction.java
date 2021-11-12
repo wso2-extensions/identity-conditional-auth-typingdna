@@ -28,7 +28,7 @@ public interface SaveUserInTypingDNAFunction {
      * Custom adaptive function for save users' typing pattern in TypingDNA.
      *
      * @param context Context from authentication flow.
-     * @throws Exception When unable to retrieve tenant configurations.
+     * @throws TypingDNAAuthenticatorException When unable to retrieve tenant configurations.
      */
     void saveUserInTypingDNA(JsAuthenticationContext context) throws TypingDNAAuthenticatorException;
 }

@@ -30,7 +30,7 @@ public interface VerifyUserWithTypingDNAFunction {
      * Custom adaptive function to verify users with TypingDNA.
      *
      * @param context       Context from authentication flow.
-     * @param eventHandlers Defines the flow of process in onSuccess & onFail.
+     * @param eventHandlers Defines the flow of process in onSuccess and onFail.
      * @throws TypingDNAAuthenticatorException When unable to retrieve tenant configurations.
      */
     void verifyUserWithTypingDNA(JsAuthenticationContext context, Map<String, Object> eventHandlers)
