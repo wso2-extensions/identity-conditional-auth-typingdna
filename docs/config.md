@@ -5,11 +5,36 @@ To use TypingDNA with WSO2 Identity Server, first you need to configure the auth
 ```
 Note: TypingDNA is supported with WSO2 Identity Server 5.12.0-alpha10 version onwards.
 ```
-* [Enabling TypingDNA in the WSO2 Identity Server](#enabling-typingdna-in-the-wso2-identity-server)
 * [Deploying TypingDNA Artifacts](#deploying-typingdna-artifacts)
+* [Enabling TypingDNA in the WSO2 Identity Server](#enabling-typingdna-in-the-wso2-identity-server)
 * [Setting up the TypingDNA account](#setting-up-the-typingdna-account)
 * [Configuring the TypingDNA in WSO2 Identity Server](#configuring-the-typingdna-in-wso2-identity-server)
 * [Configuring the application to use TypingDNA](#configuring-the-application-to-use-typingdna)
+
+### Deploying TypingDNA Artifacts
+
+You can either download the TypingDNA artifacts or build the authenticator from the source code.
+
+1. To download the Github artifacts:  
+   i. Stop WSO2 Identity Server if it is already running.   
+   ii. Download the TypingDNA connector and other required artifacts from the [WSO2 store](https://store.wso2.com/store/assets/isconnector/list).  
+   iii. Copy the `org.wso2.carbon.identity.conditional.auth.typingdna.functions-x.x.x.jar` file into the `<IS-Home>/repository/components/dropins` directory.   
+   iv. Copy the `api#identity#typingdna#v_.war` file into the `<IS-Home>/repository/deployment/server/webapps` directory.
+
+2. To build from the source code:  
+   i. Stop WSO2 Identity Server if it is already running.  
+   ii. To build the authenticator, navigate to the identity-conditional-auth-typingdna directory and execute the following command in a command prompt:
+
+   ```
+   mvn clean install
+   ```
+
+    * Note that the `org.wso2.carbon.identity.conditional.auth.typingdna.functions-x.x.x.jar` file is created in the `components/org.wso2.carbon.identity.conditional.auth.typingdna.functions/target` directory.
+    * `api#identity#typingdna#v_.war` file is created in the `components/org.wso2.carbon.identity.conditional.auth.typingdna.api/target`
+      directory.
+
+    * Copy the org.wso2.carbon.identity.conditional.auth.typingdna.functions-x.x.x.jar file into the
+      <IS-Home>/repository/components/dropins directory and the api#identity#typingdna#v_.war file into the <IS-Home>/repository/deployment/server/webapps directory.
 
 ### Enabling TypingDNA in the WSO2 Identity Server
 
@@ -20,31 +45,6 @@ Note: TypingDNA is supported with WSO2 Identity Server 5.12.0-alpha10 version on
    [myaccount.security]
     enabled_features=["security.loginVerifyData.typingDNA"]
    ```
-
-### Deploying TypingDNA Artifacts
-
-You can either download the TypingDNA artifacts or build the authenticator from the source code.
-
-1. To download the Github artifacts:  
-  i. Stop WSO2 Identity Server if it is already running.   
-  ii. Download the TypingDNA connector and other required artifacts from the [WSO2 store](https://store.wso2.com/store/assets/isconnector/list).  
-  iii. Copy the `org.wso2.carbon.identity.conditional.auth.typingdna.functions-x.x.x.jar` file into the `<IS-Home>/repository/components/dropins` directory.   
-  iv. Copy the `api#identity#typingdna#v_.war` file into the `<IS-Home>/repository/deployment/server/webapps` directory.
-
-2. To build from the source code:  
-  i. Stop WSO2 Identity Server if it is already running.  
-  ii. To build the authenticator, navigate to the identity-conditional-auth-typingdna directory and execute the following command in a command prompt:  
-   
-   ```
-   mvn clean install
-   ```
-
-   * Note that the `org.wso2.carbon.identity.conditional.auth.typingdna.functions-x.x.x.jar` file is created in the `components/org.wso2.carbon.identity.conditional.auth.typingdna.functions/target` directory. 
-   * `api#identity#typingdna#v_.war` file is created in the `components/org.wso2.carbon.identity.conditional.auth.typingdna.api/target` 
-   directory.  
-   
-   * Copy the org.wso2.carbon.identity.conditional.auth.typingdna.functions-x.x.x.jar file into the
-     <IS-Home>/repository/components/dropins directory and the api#identity#typingdna#v_.war file into the <IS-Home>/repository/deployment/server/webapps directory.
 
 ### Setting up the TypingDNA account
 
