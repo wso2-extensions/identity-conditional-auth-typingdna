@@ -35,7 +35,7 @@ You can either download the TypingDNA artifacts or build the authenticator from 
 
     * Copy the org.wso2.carbon.identity.conditional.auth.typingdna.functions-x.x.x.jar file into the
       <IS-Home>/repository/components/dropins directory and the api#identity#typingdna#v_.war file into the <IS-Home>/repository/deployment/server/webapps directory.
-
+ or
 ### Enabling TypingDNA in the WSO2 Identity Server
 
 1. Stop WSO2 Identity Server if it is already running.
@@ -82,20 +82,21 @@ Skip this part if you are using a developer/free TypingDNA account.
 3. Configure two authentication steps (2FA) in the login flow and use the Typing DNA adaptive script as shown below.
 
     ```
-    // This script will step up 2FA authentication if the user's typing behaviour mis-match with enrolled behaviour.
+    // This script will step up 2FA authentication if the user's typing behaviour does not match with the enrolled behaviour.
     
-    // You can use score(num 0-100), result(boolean), confidence(num 0-100), comparedPatterns in your logic to promote 
-    2nd step. Only the typingVerified.result is used in the sample script. 
+    // You can use the parameters 'score' (num 0-100), 'result' (boolean), 'confidence' (num 0-100), 'comparedPatterns' in your 
+    // authentication logic to trigger the 2nd step. 
+    // Only the 'result' parameter has been used in the sample script. 
     
     var onLoginRequest = function(context) {
         executeStep(1, {
             onSuccess: function (context) {
                 verifyUserWithTypingDNA(context, {
                     onSuccess: function(context,data){
-                        // Change the definition here if you want.
+                        // Change the definition here as required.
                         var userVerified = data.result;
     
-                        // data.isTypingPatternReceived indicates whether a typing patterns is received from login portal.
+                        // data.isTypingPatternReceived indicates whether a typing pattern is received from the login portal.
                         if (data.isTypingPatternReceived && !userVerified){
                             executeStep(2);
                         }
