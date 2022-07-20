@@ -1,10 +1,13 @@
 # Configuring TypingDNA with WSO2 Identity Server
 
-To use TypingDNA with WSO2 Identity Server, first you need to configure the authenticator with WSO2 Identity Server. The following topics provide instructions on how to configure the TypingDNA with WSO2 Identity Server as a risk-based authentication (RBA) option:
+To use TypingDNA with WSO2 Identity Server, first you need to configure the authenticator with WSO2 Identity Server. 
 
 ```
-Note: TypingDNA is supported with WSO2 Identity Server 6.0.0-m1 version onwards.
+Note: TypingDNA is supported with WSO2 Identity Server 5.11.0 version onwards.
 ```
+Few additional configs are needed for IS 5.11.0 which are found in [configs for IS 5.11.0](config_IS5.11.0.md).
+
+The following topics provide instructions on how to configure the TypingDNA with WSO2 Identity Server as a risk-based authentication (RBA) option:
 * [Deploying TypingDNA Artifacts](#deploying-typingdna-artifacts)
 * [Enabling TypingDNA in the WSO2 Identity Server](#enabling-typingdna-in-the-wso2-identity-server)
 * [Setting up the TypingDNA account](#setting-up-the-typingdna-account)
