@@ -26,13 +26,13 @@
 
     <groupId>org.wso2.carbon.identity.conditional.auth.typingdna</groupId>
     <artifactId>identity-conditional-auth-typingdna</artifactId>
-    <version>1.0.5-SNAPSHOT</version>
+    <version>1.0.5</version>
     <packaging>pom</packaging>
     <scm>
         <url>https://github.com/wso2-extensions/identity-conditional-auth-typingdna.git</url>
         <developerConnection>scm:git:https://github.com/wso2-extensions/identity-conditional-auth-typingdna.git</developerConnection>
         <connection>scm:git:https://github.com/wso2-extensions/identity-conditional-auth-typingdna.git</connection>
-        <tag>HEAD</tag>
+        <tag>v1.0.5</tag>
     </scm>
     <modules>
         <module>components/org.wso2.carbon.identity.conditional.auth.typingdna.api</module>
