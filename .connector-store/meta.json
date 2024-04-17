@@ -9,5 +9,13 @@
         "BehavioralBiometrics",
         "RBA"
     ],
-    "releases": []
+    "releases": [
+        {
+            "tagName": "1.0.4",
+            "products": [
+                "IS 6.0.0",
+                "IS 5.11.0"
+            ]
+        }
+    ]
 }
