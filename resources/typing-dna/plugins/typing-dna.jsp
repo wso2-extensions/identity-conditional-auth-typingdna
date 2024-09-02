@@ -30,7 +30,7 @@
 
 <script>
     var tdna = new TypingDNA();
-    typingdna.addTarget("usernameUserInput");
+    tdna.addTarget("usernameUserInput");
     tdna.addTarget("password");
 
     $(document).ready(function(){
