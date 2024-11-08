@@ -23,6 +23,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.graalvm.polyglot.HostAccess;
 import org.wso2.carbon.identity.application.authentication.framework.config.model.graph.js.JsAuthenticatedUser;
 import org.wso2.carbon.identity.application.authentication.framework.config.model.graph.js.JsAuthenticationContext;
 import org.wso2.carbon.identity.conditional.auth.functions.common.utils.CommonUtils;
@@ -57,6 +58,7 @@ public class SaveUserInTypingDNAFunctionImpl implements SaveUserInTypingDNAFunct
      * @throws TypingDNAAuthenticatorException When unable to retrieve tenant configurations.
      */
     @Override
+    @HostAccess.Export
     public void saveUserInTypingDNA(JsAuthenticationContext context) throws TypingDNAAuthenticatorException {
 
         try {
