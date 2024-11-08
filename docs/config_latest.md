@@ -77,7 +77,7 @@ Skip this part if you are using a developer/free TypingDNA account.
 
 1. Go to `Applications`, select the sample application you have configured, and click `Edit`.
 2. Go to `Login Flow` tab.
-3. Configure two authentication steps (2FA) in the login flow and use the Typing DNA adaptive script as shown below.
+3. Configure two authentication steps (2FA) in the login flow and use the Typing DNA adaptive script as shown below. You can use basic authentication and TOTP.
 
     ```
     // This script will step up 2FA authentication if the user's typing behaviour does not match with the enrolled behaviour.
