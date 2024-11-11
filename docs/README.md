@@ -11,6 +11,6 @@ Typing DNA’s typing biometrics provides risk-based adaptive authentication for
 
 * You can download the connector and other required artifacts from the [WSO2 store](https://store.wso2.com/store/assets/isconnector/list).
 * To create a TypingDNA account follow the instructions [here](files/Account%20Creation.pdf).  
-* To get started with the TypingDNA authenticator, Go to [configuring TypingDNA authentication](config.md).  
+* To get started with the TypingDNA authenticator, Go to [configuring TypingDNA authentication](config_latest.md).  
 * To see the TypingDNA adaptive script documentation, Click [here](files/adaptive-script-description.md).  
 

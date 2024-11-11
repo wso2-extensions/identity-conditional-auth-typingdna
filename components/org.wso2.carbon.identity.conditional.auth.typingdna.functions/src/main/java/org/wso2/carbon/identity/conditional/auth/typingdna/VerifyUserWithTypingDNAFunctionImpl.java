@@ -22,6 +22,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.graalvm.polyglot.HostAccess;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -69,6 +70,7 @@ public class VerifyUserWithTypingDNAFunctionImpl implements VerifyUserWithTyping
      * @throws TypingDNAAuthenticatorException When unable to retrieve tenant configurations.
      */
     @Override
+    @HostAccess.Export
     public void verifyUserWithTypingDNA(JsAuthenticationContext context, Map<String, Object> eventHandlers) throws TypingDNAAuthenticatorException {
 
         try {
