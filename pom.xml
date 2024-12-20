@@ -200,6 +200,12 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <scope>test</scope>
+                <version>${testng.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
@@ -383,5 +389,6 @@
         <graalvm.version>22.3.4</graalvm.version>
     
         <jacoco.version>0.8.12</jacoco.version>
+        <testng.version>7.0.0</testng.version>
     </properties>
 </project>
