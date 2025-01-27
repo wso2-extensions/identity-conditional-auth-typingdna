@@ -194,6 +194,11 @@
                             org.json.simple.parser,
                             javax.servlet.http;version="${imp.pkg.version.javax.servlet}"
                         </Import-Package>
+                        <DynamicImport-Package>
+                            javax.net.ssl,
+                            org.apache.commons.codec.digest,
+                            org.graalvm.polyglot
+                        </DynamicImport-Package>
                     </instructions>
                 </configuration>
             </plugin>
