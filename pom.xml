@@ -169,11 +169,6 @@
                 <scope>provided</scope>
             </dependency>
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-web</artifactId>
-                <version>${spring-web.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>javax.ws.rs</groupId>
                 <artifactId>javax.ws.rs-api</artifactId>
                 <version>${javax.ws.rs-api.version}</version>
@@ -379,7 +374,6 @@
         <swagger-annotations.version>1.5.20</swagger-annotations.version>
         <jackson-jaxrs-json-provider.version>2.9.7</jackson-jaxrs-json-provider.version>
         <javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
-        <spring-web.version>4.3.29.RELEASE</spring-web.version>
         <cxf-rt-rs-service-description.version>3.3.7</cxf-rt-rs-service-description.version>
         <cxf-rt-frontend-jaxrs.version>3.3.7</cxf-rt-frontend-jaxrs.version>
         <swagger-jaxrs.version>1.6.2</swagger-jaxrs.version>
