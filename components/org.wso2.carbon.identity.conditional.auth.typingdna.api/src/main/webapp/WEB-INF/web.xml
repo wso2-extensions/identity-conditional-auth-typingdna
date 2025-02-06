@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
-  ~ Copyright (c) 2021, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~ Copyright (c) 2021-2025, WSO2 LLC. (http://www.wso2.com).
   ~
-  ~ WSO2 Inc. licenses this file to you under the Apache License,
+  ~ WSO2 LLC. licenses this file to you under the Apache License,
   ~ Version 2.0 (the "License"); you may not use this file except
   ~ in compliance with the License.
   ~ You may obtain a copy of the License at
@@ -17,7 +16,6 @@
   ~ specific language governing permissions and limitations
   ~ under the License.
   -->
-
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
@@ -26,23 +24,25 @@
     <display-name>WSO2 Identity Server Identity Provider Management REST API</display-name>
     <description>WSO2 Identity Server Identity Provider REST API</description>
 
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>WEB-INF/beans.xml</param-value>
-    </context-param>
-
-    <listener>
-        <listener-class>
-            org.springframework.web.context.ContextLoaderListener
-        </listener-class>
-    </listener>
-
     <servlet>
         <servlet-name>CXFServlet</servlet-name>
         <servlet-class>
-            org.apache.cxf.transport.servlet.CXFServlet
+            org.apache.cxf.jaxrs.servlet.CXFNonSpringJaxrsServlet
         </servlet-class>
         <load-on-startup>1</load-on-startup>
+        <init-param>
+            <param-name>jaxrs.serviceClasses</param-name>
+            <param-value>
+                org.wso2.carbon.identity.conditional.auth.typingdna.api.MeApi,
+                org.wso2.carbon.identity.conditional.auth.typingdna.api.ServerApi
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>jaxrs.providers</param-name>
+            <param-value>
+                com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider
+            </param-value>
+        </init-param>
     </servlet>
 
     <servlet-mapping>
