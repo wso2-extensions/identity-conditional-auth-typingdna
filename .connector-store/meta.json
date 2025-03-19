@@ -2,7 +2,7 @@
     "name": "TypingDNA Connector",
     "owner": "WSO2",
     "category": "Behavioral Biometrics",
-    "documentationUrl": "https://github.com/wso2-extensions/identity-conditional-auth-typingdna/tree/v1.0.9/docs",
+    "documentationUrl": "https://github.com/wso2-extensions/identity-conditional-auth-typingdna/blob/main/docs/README.md",
     "description": "TypingDNA leverages typing biometrics to provide users with seamless, user-friendly, risk-based authentication (RBA) that enhances security and fraud prevention.",
     "status": "Active",
     "labels": [
@@ -11,7 +11,7 @@
     ],
     "releases": [
         {
-            "tagName": "v2.0.0",
+            "tagName": "v2.0.1",
             "products": [
                 "IS 7.1.0"
             ]

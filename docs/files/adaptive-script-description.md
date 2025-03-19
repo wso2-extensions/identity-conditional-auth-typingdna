@@ -13,7 +13,7 @@ following parameters with data.
 | 4 | `data.comparedPatterns` | A number, between 1-20 indicates how many previously enrolled patterns were used to verify current typing pattern | `1` - minimum patterns<br>20 - Maximum patterns |
 | 5 | `data.isTypingPatternReceived` | A boolean, indicates whether the typing pattern was received from the user. Typing patterns may not be received from users if the admin didn’t deploy the extensions in the login page or if the end users are using the autofill option in the browser | `True` - Typing patterns has been received<br>False - Typing patterns hasn’t been received. |
 
-`data.score`, `data.confidence`, `data.comparedPatterns` are only available for the [paid typingdna subscriptions](https://www.typingdna.com/pricing.html).
+`data.score`, `data.confidence`, `data.comparedPatterns` are only available for the [paid typingdna subscriptions](https://www.typingdna.com/pricing/auth-api).
 Otherwise, those values will be null.
 
 
@@ -21,7 +21,7 @@ Otherwise, those values will be null.
 
 In the provided sample script, `data.result` has been used to verify the user and prompt the second step. 
 Instead of that, you can use other parameters in the following ways to verify the user. Please note that the below 
-parameters can be configured if you have [paid typingdna subscriptions](https://www.typingdna.com/pricing.html). Otherwise, you can use
+parameters can be configured if you have [paid typingdna subscriptions](https://www.typingdna.com/pricing/auth-api). Otherwise, you can use
 the basic parameter used in the sample script.
 
 1. `data.score`: If the score is less than a threshold, the user can be prompted to the second step.  
