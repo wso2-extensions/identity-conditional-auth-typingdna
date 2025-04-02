@@ -20,7 +20,7 @@ You can either download the TypingDNA artifacts or build the authenticator from 
 
 1. To download the Github artifacts:  
    i. Stop WSO2 Identity Server if it is already running.   
-   ii. Download the TypingDNA connector and other required artifacts from the [WSO2 store](https://store.wso2.com/store/assets/isconnector/list).  
+   ii. Download the TypingDNA connector and other required artifacts from the [WSO2 store](https://store.wso2.com/connector/identity-conditional-auth-typingdna).  
    iii. Copy the `org.wso2.carbon.identity.conditional.auth.typingdna.functions-x.x.x.jar` file into the `<IS-Home>/repository/components/dropins` directory.   
    iv. Copy the `api#identity#typingdna#v_.war` file into the `<IS-Home>/repository/deployment/server/webapps` directory.
 
